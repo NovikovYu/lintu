@@ -1,0 +1,203 @@
+{
+  "portfolioComposition": {
+    "productGroups": [
+      {
+        "productGroupLabel": "U.S. Bonds",
+        "weight": 0.3,
+        "products": [
+          {
+            "ticket": "ISTB",
+            "label": "iShares Core 1-5 Year USD Bond ETF",
+            "allocationPercentage": 52,
+            "allocationСurrency": 0.06,
+            "currency": "usd"
+          },
+          {
+            "ticket": "AGG",
+            "label": "iShares Core U.S. Aggregate Bond ETF",
+            "allocationPercentage": 38,
+            "allocationСurrency": 0.04,
+            "currency": "usd"
+          },
+          {
+            "ticket": "BND",
+            "label": "Vanguard Total Bond Market ETF",
+            "allocationPercentage": 7,
+            "allocationСurrency": 0.01,
+            "currency": "usd"
+          },
+          {
+            "ticket": "MUB",
+            "label": "iShares National Muni Bond ETF",
+            "allocationPercentage": 3,
+            "allocationСurrency": 0.01,
+            "currency": "usd"
+          }
+        ]
+      },
+      {
+        "productGroupLabel": "Equities",
+        "weight": 0.3,
+        "products": [
+          {
+            "ticket": "IVV",
+            "label": "iShares Core S&P 500 ETF",
+            "allocationPercentage": 70,
+            "allocationСurrency": 0.08,
+            "currency": "usd"
+          },
+          {
+            "ticket": "VXUS",
+            "label": "Vanguard Total International Stock ETF",
+            "allocationPercentage": 20,
+            "allocationСurrency": 0.05,
+            "currency": "usd"
+          },
+          {
+            "ticket": "QQQ",
+            "label": "Invesco QQQ Trust",
+            "allocationPercentage": 8,
+            "allocationСurrency": 0.03,
+            "currency": "usd"
+          },
+          {
+            "ticket": "VGT",
+            "label": "Vanguard Information Technology ETF",
+            "allocationPercentage": 2,
+            "allocationСurrency": 0.01,
+            "currency": "usd"
+          }
+        ]
+      },
+      {
+        "productGroupLabel": "Commodities",
+        "weight": 0.4,
+        "products": [
+          {
+            "ticket": "GLD",
+            "label": "SPDR Gold Shares",
+            "allocationPercentage": 60,
+            "allocationСurrency": 0.05,
+            "currency": "usd"
+          },
+          {
+            "ticket": "USO",
+            "label": "United States Oil Fund",
+            "allocationPercentage": 30,
+            "allocationСurrency": 0.04,
+            "currency": "usd"
+          },
+          {
+            "ticket": "DBA",
+            "label": "Invesco DB Agriculture Fund",
+            "allocationPercentage": 7,
+            "allocationСurrency": 0.01,
+            "currency": "usd"
+          },
+          {
+            "ticket": "SLV",
+            "label": "iShares Silver Trust",
+            "allocationPercentage": 3,
+            "allocationСurrency": 0.01,
+            "currency": "usd"
+          }
+        ]
+      }
+    ]
+  },
+
+  "exposures": {
+    "exposuresSectors": {
+      "labels": [
+        "treasury",
+        "technology",
+        "financial",
+        "healthcare",
+        "consumer discretionary",
+        "industrial",
+        "energy",
+        "utilities",
+        "real estate",
+        "communication services"
+      ],
+      "values": [0.2, 0.2, 0.1, 0.1, 0.1, 0.1, 0.05, 0.05, 0.05, 0.05]
+    },
+    "exposuresTop10Holdings": {
+      "labels": [
+        "2treasury",
+        "technology",
+        "financial",
+        "healthcare",
+        "consumer discretionary",
+        "industrial",
+        "energy",
+        "utilities",
+        "real estate",
+        "communication services"
+      ],
+      "values": [0.2, 0.2, 0.1, 0.1, 0.1, 0.1, 0.05, 0.05, 0.05, 0.05]
+    },
+    "exposuresCreditQuality": {
+      "labels": [
+        "3treasury",
+        "technology",
+        "financial",
+        "healthcare",
+        "consumer discretionary",
+        "industrial",
+        "energy",
+        "utilities",
+        "real estate",
+        "communication services"
+      ],
+      "values": [0.2, 0.2, 0.1, 0.1, 0.1, 0.1, 0.05, 0.05, 0.05, 0.05]
+    }
+  },
+
+  "historicalReturns": {
+    "totalHistoricalReturns": 156,
+    "years": [
+      "2013",
+      "2014",
+      "2015",
+      "2016",
+      "2017",
+      "2018",
+      "2019",
+      "2020",
+      "2021",
+      "2022"
+    ],
+    "percentageReturn": [
+      {
+        "label": "Average Inflation in Europe, %",
+        "values": [1.5, 1.7, 1.8, 1.4, 1.5, 1.8, 2.0, 1.5, 1.3, 1.6]
+      },
+      {
+        "label": "Average Rate on Deposits in Europe, %",
+        "values": [1.0, 0.9, 0.7, 0.5, 0.3, 0.4, 0.5, 0.7, 0.9, 1.1]
+      },
+      {
+        "label": "Return on Investments, %",
+        "values": [11.0, 9.9, 5, 7.5, 9, 7.4, 12.5, 6.7, 6.9, 14.1]
+      }
+    ],
+    "currencyReturn": [
+      {
+        "label": "Income from investments in deposits, per €1000",
+        "values": [10, 9, 7, 5, 3, 4, 5, 7, 9, 11]
+      },
+      {
+        "label": "Income from investments in Lintu, per €1000",
+        "values": [110, 99, 50, 85, 90, 74, 125, 67, 69, 141]
+      }
+    ]
+  },
+
+  "esgPerformance": {
+    "labels": ["Environmental", "Social", "Corporate"],
+    "values": [10, 5, 5]
+  },
+
+  "levelOfRisk": 3
+}

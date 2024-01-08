@@ -1,0 +1,12 @@
+{
+  "folders": [
+	{
+		"path": "."
+	}
+],
+  "settings": {
+    "liveServer.settings.multiRootWorkspaceName": "Sandbox",
+    "i18n-ally.localesPaths": ["public/locales", "src/shared/config/i18n"],
+    "compile-hero.disable-compile-files-on-did-save-code": true
+  }
+}
