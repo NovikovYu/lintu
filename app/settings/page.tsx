@@ -1,5 +1,4 @@
 'use client';
-import * as React from 'react';
 import { useRef, useEffect } from 'react';
 
 import { Container, useTheme } from '@mui/material';
@@ -7,10 +6,17 @@ import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 
 import { MainBox } from '@/components/CommonComponents/Common-сomponents-style';
-import InfoPageContent from '@/components/Info-page/info-page-content';
 import { selectAccessKey } from '@/store/slices/sessionSlice';
 
-export default function СalculatePortfolios() {
+import {
+  SettingsTitle,
+  SettingsSubtitle,
+  SettingsCardTitle,
+  SettingsCardsList,
+  SettingsCardItem,
+} from './settings-style';
+
+export default function Portfolios() {
   const theme = useTheme();
   const accessKey = useSelector(selectAccessKey);
   const router = useRouter();
@@ -36,14 +42,29 @@ export default function СalculatePortfolios() {
         sx={{ maxWidth: theme.breakpoints.values.containersMd }}
         maxWidth={false}
       >
-        <InfoPageContent
-          imgSrc={'/calculate-portfolios.png'}
-          imgAlt={'our analytic is calculates the best portfolios'}
-          titleText={'Сalculate the best portfolios'}
-          mainText={`Wait a few minutes. It's worth it`}
-          buttonText={'OK'}
-          buttonLink={'/portfolio'}
-        />
+        <SettingsTitle variant="h1">Settings</SettingsTitle>
+
+        <SettingsSubtitle>
+          Change your settings, personal information or add a withdrawal account
+        </SettingsSubtitle>
+
+        <SettingsCardsList>
+          <SettingsCardItem>
+            <SettingsCardTitle variant="h2">Personal data</SettingsCardTitle>
+          </SettingsCardItem>
+
+          <SettingsCardItem>
+            <SettingsCardTitle variant="h2">
+              Password settings
+            </SettingsCardTitle>
+          </SettingsCardItem>
+
+          <SettingsCardItem>
+            <SettingsCardTitle variant="h2">
+              Withdrawal account
+            </SettingsCardTitle>
+          </SettingsCardItem>
+        </SettingsCardsList>
       </Container>
     </MainBox>
   );

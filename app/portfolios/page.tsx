@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 import { CircularProgress, Container, useTheme } from '@mui/material';
 import { useRouter } from 'next/navigation';
@@ -40,10 +40,21 @@ export default function Portfolios() {
   const [isLoading, setIsLoading] = useState(true);
   const [isEmailconfirm, setIsEmailconfirm] = useState(false);
   const accessKey = useSelector(selectAccessKey);
+  const accessKeyRef = useRef(accessKey);
 
-  // console.log('isLoading >>', isLoading);
-  // console.log('isEmailconfirm >>', isEmailconfirm);
-  // console.log('>> >> >> >> >> >>');
+  useEffect(() => {
+    accessKeyRef.current = accessKey;
+  }, [accessKey]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (!accessKeyRef.current) {
+        router.push('/');
+      }
+    }, 0);
+
+    return () => clearTimeout(timeoutId);
+  }, [router]);
 
   useEffect(() => {
     setIsLoading(true);
