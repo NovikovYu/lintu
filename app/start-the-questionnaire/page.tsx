@@ -1,4 +1,6 @@
 'use client';
+import { useEffect, useRef } from 'react';
+
 import { Container, useTheme } from '@mui/material';
 import Head from 'next/head';
 import { useRouter } from 'next/navigation';
@@ -13,6 +15,21 @@ export default function StartTheQuestionnaire() {
   const accessKey = useSelector(selectAccessKey);
   const router = useRouter();
   const theme = useTheme();
+  const accessKeyRef = useRef(accessKey);
+
+  useEffect(() => {
+    accessKeyRef.current = accessKey;
+  }, [accessKey]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (!accessKeyRef.current) {
+        router.push('/');
+      }
+    }, 0);
+
+    return () => clearTimeout(timeoutId);
+  }, [router]);
 
   const handleStartQuestionnaire = () => {
     startNewQuestionnaire(accessKey, router);

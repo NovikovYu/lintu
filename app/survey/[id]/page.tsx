@@ -1,5 +1,5 @@
 'use client';
-import { FC, useCallback, useEffect, useState } from 'react';
+import { useRef, useCallback, useEffect, useState } from 'react';
 
 import { Container, useTheme } from '@mui/material';
 import { useRouter } from 'next/navigation';
@@ -35,6 +35,21 @@ export default function Survey({ params: { id } }: Props) {
   const portfolioId = id ?? '';
   const accessKey = useSelector(selectAccessKey);
   const theme = useTheme();
+  const accessKeyRef = useRef(accessKey);
+
+  useEffect(() => {
+    accessKeyRef.current = accessKey;
+  }, [accessKey]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (!accessKeyRef.current) {
+        router.push('/');
+      }
+    }, 0);
+
+    return () => clearTimeout(timeoutId);
+  }, [router]);
 
   const [questionList, setQuestionList] = useState<ISortedQuestionSection[]>(
     [],
