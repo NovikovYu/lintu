@@ -50,21 +50,6 @@ export default function Survey({ params: { id } }: Props) {
 
     return () => clearTimeout(timeoutId);
   }, [router]);
-  const accessKeyRef = useRef(accessKey);
-
-  useEffect(() => {
-    accessKeyRef.current = accessKey;
-  }, [accessKey]);
-
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      if (!accessKeyRef.current) {
-        router.push('/');
-      }
-    }, 0);
-
-    return () => clearTimeout(timeoutId);
-  }, [router]);
 
   const [questionList, setQuestionList] = useState<ISortedQuestionSection[]>(
     [],
