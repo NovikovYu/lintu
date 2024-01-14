@@ -57,6 +57,21 @@ export default function Portfolios() {
 
     return () => clearTimeout(timeoutId);
   }, [router]);
+  const accessKeyRef = useRef(accessKey);
+
+  useEffect(() => {
+    accessKeyRef.current = accessKey;
+  }, [accessKey]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (!accessKeyRef.current) {
+        router.push('/');
+      }
+    }, 0);
+
+    return () => clearTimeout(timeoutId);
+  }, [router]);
 
   useEffect(() => {
     setIsLoading(true);

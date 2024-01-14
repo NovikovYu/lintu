@@ -1,5 +1,5 @@
 'use client';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { Container, Link, useTheme } from '@mui/material';
@@ -15,6 +15,8 @@ import {
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import Head from 'next/head';
+import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
 
 import {
   MainBox,
@@ -45,6 +47,7 @@ import {
   StudyLink,
   PortfolioLeftContentColumn,
 } from '@/components/Portfolio/portfolio-page-styles';
+import { selectAccessKey } from '@/store/slices/sessionSlice';
 
 ChartJS.register(
   CategoryScale,
@@ -58,6 +61,24 @@ ChartJS.register(
 export default function СPortfolio() {
   const pageRef = useRef(null);
   const theme = useTheme();
+
+  const accessKey = useSelector(selectAccessKey);
+  const router = useRouter();
+  const accessKeyRef = useRef(accessKey);
+
+  useEffect(() => {
+    accessKeyRef.current = accessKey;
+  }, [accessKey]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (!accessKeyRef.current) {
+        router.push('/');
+      }
+    }, 0);
+
+    return () => clearTimeout(timeoutId);
+  }, [router]);
 
   const saveAsPDF = async () => {
     const page = pageRef.current;
