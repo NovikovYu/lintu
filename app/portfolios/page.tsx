@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { CircularProgress, Container, useTheme } from '@mui/material';
 import { useRouter } from 'next/navigation';
@@ -31,7 +31,7 @@ export interface IPortfolioCard {
 }
 export interface PortfolioModel {
   isEmailConfirm: boolean;
-  portfolio: IPortfolioCard[];
+  portfolio_data: IPortfolioCard[];
 }
 
 export default function Portfolios() {
@@ -39,20 +39,32 @@ export default function Portfolios() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const [isEmailconfirm, setIsEmailconfirm] = useState(false);
+  const [questionnairesList, setQuestionnairesList] =
+    useState<IPortfolioCard[]>();
   const accessKey = useSelector(selectAccessKey);
+  const accessKeyRef = useRef(accessKey);
 
-  // console.log('isLoading >>', isLoading);
-  // console.log('isEmailconfirm >>', isEmailconfirm);
-  // console.log('>> >> >> >> >> >>');
+  useEffect(() => {
+    accessKeyRef.current = accessKey;
+  }, [accessKey]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (!accessKeyRef.current) {
+        router.push('/');
+      }
+    }, 0);
+
+    return () => clearTimeout(timeoutId);
+  }, [router]);
 
   useEffect(() => {
     setIsLoading(true);
 
     const fetchData = async () => {
       const data = await getQuestionnairesList(accessKey);
-      console.log('portfolios data >>', data);
-      if (data?.portfolio) {
-        setQuestionnairesList(data.portfolio);
+      if (data?.portfolio_data) {
+        setQuestionnairesList(data.portfolio_data);
       }
       if (data?.isEmailConfirm) {
         setIsEmailconfirm(data?.isEmailConfirm);
@@ -62,9 +74,6 @@ export default function Portfolios() {
 
     fetchData();
   }, [accessKey]);
-
-  const [questionnairesList, setQuestionnairesList] =
-    useState<IPortfolioCard[]>();
 
   return (
     <MainBox>
@@ -94,7 +103,7 @@ export default function Portfolios() {
             </BlockedPortfolioCardItem>
           )}
 
-          {isLoading && (
+          {!isLoading && isEmailconfirm && (
             <PortfolioCardItem>
               <PortfolioCardTitle variant="h2">
                 Create new portfolio

@@ -29,6 +29,14 @@ export const schemaRepeatPasswordValidation = yup.object().shape({
     .required(ERROR_MESSAGE_INPUT_PASSWORD_FIELD),
 });
 
+export const schemaRepeatNewPasswordValidation = yup.object().shape({
+  repeatPassword: yup
+    .string()
+    .min(8, ERROR_MESSAGE_PASSWORD_FIELD)
+    .oneOf([yup.ref('new_password')], 'Passwords must match')
+    .required(ERROR_MESSAGE_INPUT_PASSWORD_FIELD),
+});
+
 export const schemaTokenValidation = yup.object().shape({
   token: yup.string().min(3, ERROR_MESSAGE_PASSWORD_FIELD),
 });
@@ -59,8 +67,16 @@ export const signAppSchema = yup
   .concat(schemaPasswordValidation)
   .concat(schemaRepeatPasswordValidation);
 
-export const schemaNewPasswordValidation = schemaPasswordValidation
-  .concat(schemaRepeatPasswordValidation)
+export const schemaNewPasswordValidation = yup
+  .object()
+  .shape({
+    new_password: yup
+      .string()
+      .matches(REG_PASSWORD, ' ')
+      .min(8, ERROR_MESSAGE_PASSWORD_FIELD)
+      .required(ERROR_MESSAGE_INPUT_PASSWORD_FIELD),
+  })
+  .concat(schemaRepeatNewPasswordValidation)
   .concat(schemaTokenValidation);
 
 export const signInSchema = schemaEmailValidation.concat(

@@ -39,13 +39,6 @@ const ForgotPasswordForm = ({
 }: Props) => {
   const InputSize = isMobile ? 'small' : 'medium';
   const ButtonSize = isMobile ? 'small' : 'large';
-  // const { handleSubmit, control, setError } = useForm<SignUpFormTypes>({
-  //   mode: 'onChange',
-  //   resolver: yupResolver<SignUpFormTypes>(signAppSchema),
-  //   defaultValues: {
-  //     isAccepted: false,
-  //   },
-  // });
   const { handleSubmit, control, setError } = useForm<ForgotPasswordFormTypes>({
     mode: 'onChange',
     resolver: yupResolver(schemaEmailValidation),
@@ -55,46 +48,16 @@ const ForgotPasswordForm = ({
     control,
   });
   const [isLoading, setIsLoading] = React.useState(false);
-  // console.log('0 >> isLoading >>', isLoading);
 
   const onSubmit: SubmitHandler<ForgotPasswordFormTypes> = async (data) => {
-    // console.log('0 >> data.email >>', data.email);
-
     if (isValidForm(data)) {
-      // // mock data
-      // const randomPhone = () => {
-      //   let result = '';
-      //   for (let i = 0; i < 7; i++) {
-      //     result += Math.floor(Math.random() * 10);
-      //   }
-      //   return result;
-      // };
-      // const randomPhoneEnd = randomPhone();
-      // // console.log('1 >> randomPhoneEnd >>', randomPhoneEnd);
-
-      // const mockRegistrationData = {
-      //   first_name: 'Ivan',
-      //   last_name: 'Ivanov',
-      //   email: data.email,
-      //   phone_number: '+7921' + randomPhoneEnd,
-      //   password: 'Lintu4ever!',
-      //   repeatPassword: 'Lintu4ever!',
-      //   isAccepted: true,
-      //   country: 'Kazakhstan',
-      // };
-      // const signUpResult = await signUp(
       const resetPasswordResult = await resetPassword(
-        // mockRegistrationData,
         { email: data.email },
         setIsLoading,
         setError,
       );
 
-      // console.log('2 >> signUpResult >>', signUpResult);
-
-      if (resetPasswordResult?.data) {
-        // console.log('3 >> signUpResult?.data?.id >>', signUpResult?.data?.id);
-
+      if (resetPasswordResult?.status === 200) {
         handleCloseForgotPasswordModal();
         handleOpenForgotPasswordMessageModal();
       }
@@ -103,6 +66,9 @@ const ForgotPasswordForm = ({
 
   const isValidForm = (data: ForgotPasswordFormTypes) =>
     schemaEmailValidation.isValidSync(data);
+
+  // @ts-ignore
+  const manualError = errors?.detail?.message;
 
   return (
     <ForgotPasswordBoxRestyled>
@@ -132,8 +98,8 @@ const ForgotPasswordForm = ({
               label="Email"
               size={InputSize}
               variant="outlined"
-              error={!!fieldState.error?.message}
-              helperText={fieldState.error?.message}
+              error={!!fieldState.error?.message || manualError}
+              helperText={manualError || fieldState.error?.message}
               value={field.value || ''}
               onChange={field.onChange}
             />

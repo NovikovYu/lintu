@@ -1,5 +1,6 @@
 'use client';
 import * as React from 'react';
+import { useState } from 'react';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
@@ -44,26 +45,11 @@ type Props = {
   };
 };
 
-// type NewPasswordFormTypes = {
-//   password: string;
-//   repeatPassword: string;
-// };
-
-// export type NewPasswordRequestTypes = {
-//   password: string;
-//   token: string;
-// };
-
 export type NewPasswordFormTypes = {
-  password: string;
+  new_password: string;
   repeatPassword: string;
   token?: string;
 };
-
-// export type NewPasswordRequestTypes = {
-//   password: string;
-//   token: string;
-// };
 
 export default function NewPassword({ params: { id } }: Props) {
   const router = useRouter();
@@ -96,40 +82,21 @@ export default function NewPassword({ params: { id } }: Props) {
   const { errors, isValid } = useFormState({
     control,
   });
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit: SubmitHandler<NewPasswordFormTypes> = async (data) => {
     if (isValidForm(data)) {
-      // // mock data
-      // const randomPhone = () => {
-      //   let result = '';
-      //   for (let i = 0; i < 7; i++) {
-      //     result += Math.floor(Math.random() * 10);
-      //   }
-      //   return result;
-      // };
-      // const randomPhoneEnd = randomPhone();
-      // const mockRegistrationData = {
-      //   first_name: 'Ivan',
-      //   last_name: 'Ivanov',
-      //   email: 'g' + randomPhoneEnd + '@gmail.com',
-      //   phone_number: '+7921' + randomPhoneEnd,
-      //   password: 'Lintu4ever!',
-      //   repeatPassword: 'Lintu4ever!',
-      //   isAccepted: true,
-      //   country: 'Kazakhstan',
-      // };
       const saveNewPasswordResult = await saveNewPassword(
         {
-          password: data.password,
-          repeatPassword: data.password,
+          new_password: data.new_password,
+          repeatPassword: data.new_password,
           token: unickToken,
         },
         setIsLoading,
         setError,
       );
 
-      if (saveNewPasswordResult?.data) {
+      if (saveNewPasswordResult?.status === 200) {
         router.push('/new-password-success');
       }
     } else errors;
@@ -156,7 +123,7 @@ export default function NewPassword({ params: { id } }: Props) {
             >
               <Controller
                 control={control}
-                name="password"
+                name="new_password"
                 render={({ field, fieldState }) => {
                   const { value: fieldValue, onChange } = field;
                   return (

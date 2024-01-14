@@ -3,7 +3,7 @@
 import axios from 'axios';
 import { UseFormSetError } from 'react-hook-form';
 
-import { NewPasswordFormTypes } from '@/app/new-password/[id]/page';
+import { NewPasswordFormTypes } from '@/app/change_password/[id]/page';
 import { IPortfolioCard, PortfolioModel } from '@/app/portfolios/page';
 import { ISortedQuestionSection } from '@/app/survey/[id]/page';
 import { sortQuestionsBySections } from '@/components/Survey/utilities';
@@ -211,7 +211,7 @@ export const resetPassword = async (
       errorsNamesList.forEach((errorPath) => {
         setError(
           errorPath as 'email' | `root.${string}` | 'root',
-          { type: 'manual', message: errorsData[errorPath][0] },
+          { type: 'manual', message: errorsData[errorPath] },
           { shouldFocus: true },
         );
       });
@@ -246,7 +246,7 @@ export const saveNewPassword = async (
           errorPath as
             | `root.${string}`
             | 'root'
-            | 'password'
+            | 'new_password'
             | 'repeatPassword'
             | 'token',
           { type: 'manual', message: errorsData[errorPath][0] },

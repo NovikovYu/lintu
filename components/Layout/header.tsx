@@ -31,6 +31,7 @@ interface Props {
 }
 
 function Header({ handleOpenSignInModal }: Props) {
+  console.log('rep: main, date: 14.01.2024 9_35');
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -100,7 +101,7 @@ function Header({ handleOpenSignInModal }: Props) {
                 </SignInButtonRestyled>
               ) : (
                 <SignInButtonRestyled href="#" onClick={handleOpenSignInModal}>
-                  SignIn
+                  Sign In
                 </SignInButtonRestyled>
               )}
             </HeaderWrapper>
@@ -124,7 +125,7 @@ function Header({ handleOpenSignInModal }: Props) {
               </SignInButtonRestyled>
             ) : (
               <SignInButtonRestyled href="#" onClick={handleOpenSignInModal}>
-                SignIn
+                Sign In
               </SignInButtonRestyled>
             )}
             <MenuIconButtonRestyled
