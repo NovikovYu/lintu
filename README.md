@@ -50,3 +50,11 @@ To format code using Prettier, run:
 ```bash
 npm run format
 ```
+
+## Sentry
+
+Sentry is a real-time application monitoring platform. It helps you monitor and fix crashes in your applications before your users report them.
+To use Sentry:
+
+1. Login our google account (lintufinance@gmail.com | Lintu4ever!)
+2. Open https://lintu-finance.sentry.io/issues/ logined via google account
