@@ -6,11 +6,11 @@ import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 
 import { getQuestionList, saveAnswer } from '@/actions/actions';
+import Question, { IQuestion } from '@/app/b7/Question';
 import {
   MainBox,
   P,
 } from '@/components/CommonComponents/Common-сomponents-style';
-import Question, { IQuestion } from '@/app/b7/Question';
 import {
   SurvayWrapper,
   SurvayPartTitleWrapper,
@@ -52,9 +52,9 @@ export default function Survey({ params: { id } }: Props) {
   //   return () => clearTimeout(timeoutId);
   // }, [router]);
 
-const handleSubmit = (value: string) => {
-  console.log('handleSubmit value >>> ', value)
-}
+  const handleSubmit = (value: string) => {
+    console.log('handleSubmit value >>> ', value);
+  };
 
   return (
     <MainBox>
@@ -65,9 +65,7 @@ const handleSubmit = (value: string) => {
         <SurvayWrapper>
           <SurvayPartQuestionsWrapper>
             <Question
-              question={
-                'Method of replenishment'
-              }
+              question={'Method of replenishment'}
               questionSubtitle={
                 'As long as you do not have a saved deposit method'
               }

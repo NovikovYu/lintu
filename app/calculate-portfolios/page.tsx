@@ -10,7 +10,7 @@ import { MainBox } from '@/components/CommonComponents/Common-сomponents-style'
 import InfoPageContent from '@/components/Info-page/info-page-content';
 import { selectAccessKey } from '@/store/slices/sessionSlice';
 
-const delayForFakingСalculation = 3000
+const delayForFakingСalculation = 3000;
 
 export default function СalculatePortfolios() {
   const theme = useTheme();

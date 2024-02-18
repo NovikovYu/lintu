@@ -1,7 +1,7 @@
-import { P } from '@/components/CommonComponents/Common-сomponents-style';
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
+import { P } from '@/components/CommonComponents/Common-сomponents-style';
 
 export const SurvayWrapper = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -97,9 +97,9 @@ export const SurvayButtonsWrapper = styled(Box)(({ theme }) => ({
   flexDirection: 'column',
   gap: theme.spacing(2),
 
-    [theme.breakpoints.up('md')]: {
-      flexDirection: 'row',
-    },
+  [theme.breakpoints.up('md')]: {
+    flexDirection: 'row',
+  },
 }));
 
 export const TableWrapper = styled(Box)(({ theme }) => ({

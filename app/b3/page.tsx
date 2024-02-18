@@ -6,11 +6,11 @@ import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 
 import { getQuestionList, saveAnswer } from '@/actions/actions';
+import Question, { IQuestion } from '@/app/b3/Question';
 import {
   MainBox,
   P,
 } from '@/components/CommonComponents/Common-сomponents-style';
-import Question, { IQuestion } from '@/app/b3/Question';
 import {
   SurvayWrapper,
   SurvayPartTitleWrapper,
@@ -52,9 +52,9 @@ export default function Survey({ params: { id } }: Props) {
   //   return () => clearTimeout(timeoutId);
   // }, [router]);
 
-const handleSubmit = (value: string) => {
-  console.log('handleSubmit value >>> ', value)
-}
+  const handleSubmit = (value: string) => {
+    console.log('handleSubmit value >>> ', value);
+  };
 
   return (
     <MainBox>
@@ -65,19 +65,18 @@ const handleSubmit = (value: string) => {
         <SurvayWrapper>
           <SurvayPartQuestionsWrapper>
             <Question
-              question={
-                'Choose a currency'
-              }
-              questionSubtitle={
-                'This is the last step of opening an account'
-              }
-              questionAnswers={[{
-                answer_text: 'Dollars, $',
-                answer_id: 'Dollars',
-              }, {
-                answer_text: 'Euros, €',
-                answer_id: 'Euros',
-              }]}
+              question={'Choose a currency'}
+              questionSubtitle={'This is the last step of opening an account'}
+              questionAnswers={[
+                {
+                  answer_text: 'Dollars, $',
+                  answer_id: 'Dollars',
+                },
+                {
+                  answer_text: 'Euros, €',
+                  answer_id: 'Euros',
+                },
+              ]}
               submit={handleSubmit}
             />
           </SurvayPartQuestionsWrapper>

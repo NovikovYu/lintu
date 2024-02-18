@@ -1,6 +1,7 @@
-import { P } from '@/components/CommonComponents/Common-сomponents-style';
 import { Box, TextField } from '@mui/material';
 import { styled } from '@mui/material/styles';
+
+import { P } from '@/components/CommonComponents/Common-сomponents-style';
 
 export const BankDetailsFormTitle = styled(P)(({ theme }) => ({
   // marginBottom: theme.spacing(1),
@@ -21,8 +22,6 @@ export const BankDetailsFormTitle = styled(P)(({ theme }) => ({
   },
 }));
 
-
-
 export const BankDetailsFormRowsWrapper = styled(Box)(({ theme }) => ({
   border: '1px solid blue',
 
@@ -32,8 +31,6 @@ export const BankDetailsFormRowsWrapper = styled(Box)(({ theme }) => ({
   marginBottom: theme.spacing(4),
 
   // marginBottom: theme.spacing(4),
-
-
 }));
 export const BankDetailsFormRow = styled(Box)(({ theme }) => ({
   border: '1px solid tomato',
@@ -69,31 +66,25 @@ export const BankDetailsFormRowLable = styled(P)(({ theme }) => ({
   // },
 }));
 
-export const BankDetailsFormFieldRestyled = styled(TextField)(
-  ({ theme }) => ({
-
-    // marginTop: theme.spacing(2),
-    // marginBottom: theme.spacing(2),
-    // [theme.breakpoints.down('sm')]: {
-    //   marginBottom: theme.spacing(1.7),
-    //   input: {
-    //     fontSize: theme.typography.subtitle2.fontSize,
-    //   },
-    //   label: {
-    //     fontSize: theme.typography.subtitle2.fontSize,
-    //   },
-    //   '.MuiFormHelperText-root.Mui-error': {
-    //     fontSize: theme.typography.subtitle2.fontSize,
-    //   },
-    // },
-  }),
-);
-export const BankDetailsFormDevider = styled(Box)(
-  ({ theme }) => ({
-      borderBottom: `1px solid ${theme.palette.text.secondary}`
-  }),
-);
-
+export const BankDetailsFormFieldRestyled = styled(TextField)(({ theme }) => ({
+  // marginTop: theme.spacing(2),
+  // marginBottom: theme.spacing(2),
+  // [theme.breakpoints.down('sm')]: {
+  //   marginBottom: theme.spacing(1.7),
+  //   input: {
+  //     fontSize: theme.typography.subtitle2.fontSize,
+  //   },
+  //   label: {
+  //     fontSize: theme.typography.subtitle2.fontSize,
+  //   },
+  //   '.MuiFormHelperText-root.Mui-error': {
+  //     fontSize: theme.typography.subtitle2.fontSize,
+  //   },
+  // },
+}));
+export const BankDetailsFormDevider = styled(Box)(({ theme }) => ({
+  borderBottom: `1px solid ${theme.palette.text.secondary}`,
+}));
 
 export const BankDetailsFormBlockTitle = styled(P)(({ theme }) => ({
   // marginBottom: theme.spacing(1),
@@ -114,10 +105,8 @@ export const BankDetailsFormBlockTitle = styled(P)(({ theme }) => ({
   },
 }));
 
-export const BankDetailsFormRightColumn = styled(Box)(
-  ({ theme }) => ({
-    display: 'flex',
-    flexDirection: 'column',
-    gap: theme.spacing(1), 
-    }),
-);
+export const BankDetailsFormRightColumn = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: theme.spacing(1),
+}));

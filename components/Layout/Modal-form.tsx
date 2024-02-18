@@ -121,14 +121,14 @@ const ModalForm = ({ handleCloseSignInModal, openFormSignInModal }: Props) => {
         aria-describedby="sign-up-form"
       >
         <SignUpBoxRestyledWrappper>
-        <SignUpBoxRestyled>
-          <SignUpForm
-            handleCloseSignUpModal={() =>
-              handleOpenModal(Modules.SIGN_UP, false)
-            }
-            isMobile={isMobile}
-          />
-        </SignUpBoxRestyled>
+          <SignUpBoxRestyled>
+            <SignUpForm
+              handleCloseSignUpModal={() =>
+                handleOpenModal(Modules.SIGN_UP, false)
+              }
+              isMobile={isMobile}
+            />
+          </SignUpBoxRestyled>
         </SignUpBoxRestyledWrappper>
       </Modal>
     </>

@@ -1,5 +1,6 @@
+import { ReactNode } from 'react';
+
 import Image from 'next/image';
-import LevelOfRiskinessSlider from '@/components/Portfolio/level-of-riskiness-slider';
 
 import { PrimaryButton } from '@/components/CommonComponents/Common-сomponents-style';
 import {
@@ -8,7 +9,7 @@ import {
   InfoPageTitle,
   InfoPageText,
 } from '@/components/Info-page/Info-page-styles';
-import { ReactNode } from 'react';
+import LevelOfRiskinessSlider from '@/components/Portfolio/level-of-riskiness-slider';
 
 interface IInfoPageContentWithOnClick {
   imgSrc: string;

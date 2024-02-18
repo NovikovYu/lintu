@@ -1,11 +1,10 @@
 import React, { FC } from 'react';
 
 import { Slider, useTheme } from '@mui/material';
-import { PortfolioAmountSliderWrapper } from './style-portfolio-amount';
 
 interface IProps {
   defaultValue: number;
-  setAmount: (amount: number) => void;
+  setAmount: (amount: number | number[]) => void;
 }
 
 function valuetext(value: number) {
@@ -17,13 +16,11 @@ const PortfolioAmountSlider: FC<IProps> = ({ defaultValue, setAmount }) => {
 
   return (
     <Slider
-      // disabled={true}
-      // track={tr}
       defaultValue={defaultValue}
       max={10000}
       min={1000}
       valueLabelDisplay="auto"
-      onChange={(_: Event, value: number) => setAmount(value)}
+      onChange={(_: Event, value: number | number[]) => setAmount(value)}
       sx={{
         width: '100%',
         color: theme.palette.primary.main,

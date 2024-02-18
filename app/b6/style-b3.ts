@@ -1,7 +1,7 @@
-import { P } from '@/components/CommonComponents/Common-сomponents-style';
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
+import { P } from '@/components/CommonComponents/Common-сomponents-style';
 
 export const SurvayWrapper = styled(Box)(({ theme }) => ({
   display: 'flex',

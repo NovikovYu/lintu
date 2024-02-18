@@ -1,14 +1,20 @@
 import * as React from 'react';
+
+import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+
+import {
+  PrimaryButton,
+  SecondaryButton,
+} from '@/components/CommonComponents/Common-сomponents-style';
+
 import { RechargeMethods } from './page';
 import { SurvayButtonsWrapper, TableWrapper } from './style-b3';
-import { PrimaryButton, SecondaryButton } from '@/components/CommonComponents/Common-сomponents-style';
 
 // function createData(
 //   name: string,
@@ -29,23 +35,23 @@ import { PrimaryButton, SecondaryButton } from '@/components/CommonComponents/Co
 // ];
 
 interface RechargeMethodsTableProps {
-    data: RechargeMethods[]
+  data: RechargeMethods[];
 }
 
-const handleRefill = (id) => {
-    console.log('handleRefill', id)
-}
+const handleRefill = (id: string) => {
+  console.log('handleRefill', id);
+};
 
+const handleDelete = (id: string) => {
+  console.log('handleRefill', id);
+};
 
-const handleDelete = (id) => {
-    console.log('handleRefill', id)
-}
-
-export default function RechargeMethodsTable({data}:RechargeMethodsTableProps) {
+export default function RechargeMethodsTable({
+  data,
+}: RechargeMethodsTableProps) {
   return (
     // <TableContainer component={Paper}>
     <TableWrapper>
-
       {/* <Table sx={{ minWidth: 650 }} aria-label="simple table"> */}
       <Table aria-label="simple table">
         <TableHead>
@@ -64,33 +70,31 @@ export default function RechargeMethodsTable({data}:RechargeMethodsTableProps) {
               <TableCell component="th" scope="row">
                 {row.methodName}
               </TableCell>
-              <TableCell >{row.account}</TableCell>
-              <TableCell >
-                    
-        <SurvayButtonsWrapper>
-          <PrimaryButton
-            type="button"
-            size="small"
-            variant="contained"
-            onClick={() => handleRefill(row.account)}
-          >
-            Refill
-          </PrimaryButton>
-          <SecondaryButton
-            type="button"
-            size="small"
-            variant="contained"
-            onClick={() => handleDelete(row.account)}
-          >
-            delete
-          </SecondaryButton>
-        </SurvayButtonsWrapper>
+              <TableCell>{row.account}</TableCell>
+              <TableCell>
+                <SurvayButtonsWrapper>
+                  <PrimaryButton
+                    type="button"
+                    size="small"
+                    variant="contained"
+                    onClick={() => handleRefill(row.account)}
+                  >
+                    Refill
+                  </PrimaryButton>
+                  <SecondaryButton
+                    type="button"
+                    size="small"
+                    variant="contained"
+                    onClick={() => handleDelete(row.account)}
+                  >
+                    delete
+                  </SecondaryButton>
+                </SurvayButtonsWrapper>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-      </TableWrapper>
-
+    </TableWrapper>
   );
 }

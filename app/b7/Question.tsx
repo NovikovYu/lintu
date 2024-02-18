@@ -6,12 +6,17 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 
 import {
+  P,
+  PrimaryButton,
+  SecondaryButton,
+} from '@/components/CommonComponents/Common-сomponents-style';
+
+import {
   Subtitle,
   SurvayAnswersWrapper,
   SurvayButtonsWrapper,
   SurvayQuestion,
 } from './style-b3';
-import { P, PrimaryButton, SecondaryButton } from '@/components/CommonComponents/Common-сomponents-style';
 
 export interface IAnswer {
   answer_text: string;
@@ -34,11 +39,7 @@ interface IProps {
   submit: (answer: string) => void;
 }
 
-const Question = ({
-  question,
-  questionSubtitle,
-  submit
-}: IProps) => {
+const Question = ({ question, questionSubtitle, submit }: IProps) => {
   const [value, setValue] = useState<string>('');
 
   const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {

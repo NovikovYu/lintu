@@ -15,8 +15,10 @@ import {
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import Head from 'next/head';
+import link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
+import { number } from 'yup';
 
 import {
   MainBox,
@@ -52,10 +54,17 @@ import {
   PortfolioRefillBlock,
   PortfolioRefillBlockButtonsWrapper,
 } from '@/components/Portfolio/portfolio-page-styles';
+import {
+  PortfolioCardItem,
+  PortfolioCardNumbersWrapper,
+  PortfolioCardNumbersColumnLeft,
+  PortfolioCardTitle,
+  PortfolioCardNumbersColumnRight,
+  PortfolioCardAssentTitle,
+  PortfolioNoSuccedCardAssentTitle,
+} from '@/components/Portfolios/Portfolios-style';
 import { selectAccessKey } from '@/store/slices/sessionSlice';
-import { PortfolioCardItem, PortfolioCardNumbersWrapper, PortfolioCardNumbersColumnLeft, PortfolioCardTitle, PortfolioCardNumbersColumnRight, PortfolioCardAssentTitle, PortfolioNoSuccedCardAssentTitle } from '@/components/Portfolios/Portfolios-style';
-import link from 'next/link';
-import { number } from 'yup';
+
 import { SecondaryButtonForPortfolioCard } from '../settings/settings-style';
 
 ChartJS.register(
@@ -79,17 +88,15 @@ export default function СPortfolio() {
     accessKeyRef.current = accessKey;
   }, [accessKey]);
 
-  // страница a2
-  // закладка - вернуть приватность
-  // useEffect(() => {
-  //   const timeoutId = setTimeout(() => {
-  //     if (!accessKeyRef.current) {
-  //       router.push('/');
-  //     }
-  //   }, 0);
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (!accessKeyRef.current) {
+        router.push('/');
+      }
+    }, 0);
 
-  //   return () => clearTimeout(timeoutId);
-  // }, [router]);
+    return () => clearTimeout(timeoutId);
+  }, [router]);
 
   const saveAsPDF = async () => {
     const page = pageRef.current;
@@ -116,17 +123,16 @@ export default function СPortfolio() {
   };
 
   // закладка - удалить
-  const profitability = 10
+  const profitability = 10;
 
   // закладка - b4
-  const handleRefill = (id) => {
-    console.log('handleRefill', id)
-}
+  const handleRefill = (id: string) => {
+    console.log('handleRefill', id);
+  };
 
-
-const handleDelete = (id) => {
-    console.log('handleRefill', id)
-}
+  const handleDelete = (id: string) => {
+    console.log('handleRefill', id);
+  };
 
   return (
     <MainBox>
@@ -174,83 +180,78 @@ const handleDelete = (id) => {
         </PortfolioActionBlock>
 
         {/* bookmark - a2 */}
-        {/* заклдака - сделать логику выводы */}
-        <PortfolioAcountAmountBlock>
-          <div>
-            <PortfolioBlockTitle variant="h2">
-            Demo acount
-            </PortfolioBlockTitle>
+        {false && (
+          <PortfolioAcountAmountBlock>
+            <div>
+              <PortfolioBlockTitle variant="h2">
+                Demo acount
+              </PortfolioBlockTitle>
 
-            <P>Refill your account to start investing</P>
-          </div>
+              <P>Refill your account to start investing</P>
+            </div>
 
-          <PortfolioCardNumbersColumnRight>
-          {profitability > 0 ? (
-            <PortfolioCardAssentTitle>
-              {/* +{profitability}% */}
-              $ 10 000
-            </PortfolioCardAssentTitle>
-          ) : (
-            <PortfolioNoSuccedCardAssentTitle>
-              {/* {profitability}% */}
-              $ 10 000
-            </PortfolioNoSuccedCardAssentTitle>
-          )}
-          <P>+ 0% per year</P>
-        </PortfolioCardNumbersColumnRight>
-        </PortfolioAcountAmountBlock>
+            <PortfolioCardNumbersColumnRight>
+              {profitability > 0 ? (
+                <PortfolioCardAssentTitle>
+                  {/* +{profitability}% */}$ 10 000
+                </PortfolioCardAssentTitle>
+              ) : (
+                <PortfolioNoSuccedCardAssentTitle>
+                  {/* {profitability}% */}$ 10 000
+                </PortfolioNoSuccedCardAssentTitle>
+              )}
+              <P>+ 0% per year</P>
+            </PortfolioCardNumbersColumnRight>
+          </PortfolioAcountAmountBlock>
+        )}
 
         {/* bookmark - b4 */}
-        {/* заклдака - сделать логику выводы */}
-        <PortfolioRefillBlock>
-          <PortfolioAcountAmountBlockContent>
+        {false && (
+          <PortfolioRefillBlock>
+            <PortfolioAcountAmountBlockContent>
+              <div>
+                <PortfolioBlockTitle variant="h2">
+                  Your investments
+                </PortfolioBlockTitle>
 
-          <div>
-            <PortfolioBlockTitle variant="h2">
-            Your investments
-            </PortfolioBlockTitle>
+                <P>Refill your account to start investing</P>
+              </div>
 
-            <P>Refill your account to start investing</P>
-          </div>
+              <PortfolioCardNumbersColumnRight>
+                {profitability > 0 ? (
+                  <PortfolioCardAssentTitle>
+                    {/* +{profitability}% */}$ 0
+                  </PortfolioCardAssentTitle>
+                ) : (
+                  <PortfolioNoSuccedCardAssentTitle>
+                    {/* {profitability}% */}$ 0
+                  </PortfolioNoSuccedCardAssentTitle>
+                )}
+                <P>+ 0% per year</P>
+              </PortfolioCardNumbersColumnRight>
+            </PortfolioAcountAmountBlockContent>
 
-          <PortfolioCardNumbersColumnRight>
-          {profitability > 0 ? (
-            <PortfolioCardAssentTitle>
-              {/* +{profitability}% */}
-              $ 0
-            </PortfolioCardAssentTitle>
-          ) : (
-            <PortfolioNoSuccedCardAssentTitle>
-              {/* {profitability}% */}
-              $ 0
-            </PortfolioNoSuccedCardAssentTitle>
-          )}
-          <P>+ 0% per year</P>
-        </PortfolioCardNumbersColumnRight>
-        </PortfolioAcountAmountBlockContent>
+            <PortfolioRefillBlockButtonsWrapper>
+              <PrimaryButton
+                type="button"
+                size="medium"
+                variant="contained"
+                onClick={() => handleRefill('id1')}
+              >
+                Refill
+              </PrimaryButton>
+              <SecondaryButton
+                type="button"
+                size="medium"
+                variant="contained"
+                onClick={() => handleDelete('id1')}
+              >
+                Replenishment History
+              </SecondaryButton>
+            </PortfolioRefillBlockButtonsWrapper>
+          </PortfolioRefillBlock>
+        )}
 
-        <PortfolioRefillBlockButtonsWrapper>
-          <PrimaryButton
-            type="button"
-            size="medium"
-            variant="contained"
-            onClick={() => handleRefill('id1')}
-          >
-            Refill
-          </PrimaryButton>
-          <SecondaryButton
-            type="button"
-            size="medium"
-            variant="contained"
-            onClick={() => handleDelete('id1')}
-          >
-            Replenishment History
-          </SecondaryButton>
-        </PortfolioRefillBlockButtonsWrapper>
-        </PortfolioRefillBlock>
-
-
-    
         <PortfolioContentBlock ref={pageRef}>
           <PortfolioLeftContentColumn>
             <PortfolioCompositionBlock
