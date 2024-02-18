@@ -24,9 +24,9 @@ export default function СalculatePortfolios() {
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      if (!accessKeyRef.current) {
-        router.push('/portfolio');
-      }
+      // if (!accessKeyRef.current) {
+      router.push('/portfolio');
+      // }
     }, delayForFakingСalculation);
 
     return () => clearTimeout(timeoutId);
