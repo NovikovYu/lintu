@@ -34,13 +34,11 @@ import LevelOfRiskinessSlider from '@/components/Portfolio/level-of-riskiness-sl
 import { portfolioData } from '@/components/Portfolio/mock-data';
 import PortfolioCompositionBlock from '@/components/Portfolio/portfolio-composition-block';
 import {
-  ESGPerformanceChartWrapper,
   PortfolioActionBlock,
   PortfolioActionBlockButton,
   PortfolioBlockTitle,
   PortfolioContentBlock,
   PortfolioDownloadBtn,
-  PortfolioEconomicDetailsBlock,
   PortfolioRightBlock,
   PortfolioRiskBlockScale,
   PortfolioRiskBlockScaleItem,
