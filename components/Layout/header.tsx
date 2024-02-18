@@ -31,7 +31,7 @@ interface Props {
 }
 
 function Header({ handleOpenSignInModal }: Props) {
-  console.log('rep: main, date: 14.01.2024 9_35');
+  console.log('rep: main, date: 18.02.2024 21_40');
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
