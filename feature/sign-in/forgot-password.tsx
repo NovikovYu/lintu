@@ -74,7 +74,7 @@ const ForgotPasswordForm = ({
     <ForgotPasswordBoxRestyled>
       <ForgotPasswordFormRestyled>
         <ForgotPasswordHeadingFormRestyled>
-          Forgot a password?
+          Have you forgotten your password?
         </ForgotPasswordHeadingFormRestyled>
         <ForgotPasswordIconButtonRestyled
           aria-label="Close-form"

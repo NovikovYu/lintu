@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import LevelOfRiskinessSlider from '@/components/Portfolio/level-of-riskiness-slider';
 
 import { PrimaryButton } from '@/components/CommonComponents/Common-сomponents-style';
 import {
@@ -7,10 +8,12 @@ import {
   InfoPageTitle,
   InfoPageText,
 } from '@/components/Info-page/Info-page-styles';
+import { ReactNode } from 'react';
 
 interface IInfoPageContentWithOnClick {
   imgSrc: string;
   imgAlt: string;
+  children: ReactNode;
   titleText: string;
   mainText: string;
   buttonText: string;
@@ -22,6 +25,7 @@ interface IInfoPageContentWithLink {
   imgAlt: string;
   titleText: string;
   mainText: string;
+  children?: ReactNode;
   buttonText?: string;
   onClick?: () => void;
   buttonLink?: string;
@@ -32,6 +36,7 @@ export default function InfoPageContent({
   imgAlt,
   titleText,
   mainText,
+  children,
   buttonText,
   onClick,
   buttonLink,
@@ -45,6 +50,8 @@ export default function InfoPageContent({
       <InfoPageTitle variant="h1">{titleText}</InfoPageTitle>
 
       <InfoPageText>{mainText}</InfoPageText>
+
+      {children && children}
 
       {buttonText && (
         <PrimaryButton

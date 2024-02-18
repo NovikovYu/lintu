@@ -96,6 +96,7 @@ export const ForgotPasswordInputLabelRestyled = styled(InputLabel)(
     fontSize: theme.typography.body2.fontSize,
     textAlign: 'end',
     marginBottom: theme.spacing(2),
+    cursor: 'pointer',
     [theme.breakpoints.down('sm')]: {
       fontSize: theme.typography.caption.fontSize,
     },

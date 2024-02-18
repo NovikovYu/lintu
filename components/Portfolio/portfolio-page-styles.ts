@@ -69,6 +69,50 @@ export const PortfolioActionBlock = styled(Box)(({ theme }) => ({
   },
 }));
 
+export const PortfolioAcountAmountBlock = styled(Box)(({ theme }) => ({
+  marginBottom: theme.spacing(2),
+  padding: theme.spacing(2),
+  borderRadius: theme.spacing(0.5),
+  backgroundColor: theme.palette.primary.contrastText,
+  boxShadow: theme.palette.shadows[200],
+
+  [theme.breakpoints.up('sm')]: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: theme.spacing(3),
+    padding: theme.spacing(3),
+  },
+}));
+
+export const PortfolioRefillBlock = styled(Box)(({ theme }) => ({
+  marginBottom: theme.spacing(2),
+  padding: theme.spacing(2),
+  borderRadius: theme.spacing(0.5),
+  backgroundColor: theme.palette.primary.contrastText,
+  boxShadow: theme.palette.shadows[200],
+
+  [theme.breakpoints.up('sm')]: {
+    marginBottom: theme.spacing(3),
+    padding: theme.spacing(3),
+  },
+}));
+
+export const PortfolioRefillBlockButtonsWrapper = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  gap: theme.spacing(2),
+}));
+
+export const PortfolioAcountAmountBlockContent = styled(Box)(({ theme }) => ({
+  marginBottom: theme.spacing(2),
+
+  [theme.breakpoints.up('sm')]: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+}));
+
 export const PortfolioContentBlock = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',

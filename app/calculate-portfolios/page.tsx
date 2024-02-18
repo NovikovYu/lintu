@@ -10,6 +10,8 @@ import { MainBox } from '@/components/CommonComponents/Common-сomponents-style'
 import InfoPageContent from '@/components/Info-page/info-page-content';
 import { selectAccessKey } from '@/store/slices/sessionSlice';
 
+const delayForFakingСalculation = 3000
+
 export default function СalculatePortfolios() {
   const theme = useTheme();
   const accessKey = useSelector(selectAccessKey);
@@ -23,9 +25,9 @@ export default function СalculatePortfolios() {
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       if (!accessKeyRef.current) {
-        router.push('/');
+        router.push('/portfolio');
       }
-    }, 0);
+    }, delayForFakingСalculation);
 
     return () => clearTimeout(timeoutId);
   }, [router]);
@@ -41,8 +43,6 @@ export default function СalculatePortfolios() {
           imgAlt={'our analytic is calculates the best portfolios'}
           titleText={'Сalculate the best portfolios'}
           mainText={`Wait a few minutes. It's worth it`}
-          buttonText={'OK'}
-          buttonLink={'/portfolio'}
         />
       </Container>
     </MainBox>

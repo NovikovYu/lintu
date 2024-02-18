@@ -14,6 +14,7 @@ import {
   ForgotPasswordMessageBoxRestyled,
   SignInBoxRestyled,
   SignUpBoxRestyled,
+  SignUpBoxRestyledWrappper,
 } from './Header-style';
 
 interface Props {
@@ -119,6 +120,7 @@ const ModalForm = ({ handleCloseSignInModal, openFormSignInModal }: Props) => {
         aria-labelledby="sign-up"
         aria-describedby="sign-up-form"
       >
+        <SignUpBoxRestyledWrappper>
         <SignUpBoxRestyled>
           <SignUpForm
             handleCloseSignUpModal={() =>
@@ -127,6 +129,7 @@ const ModalForm = ({ handleCloseSignInModal, openFormSignInModal }: Props) => {
             isMobile={isMobile}
           />
         </SignUpBoxRestyled>
+        </SignUpBoxRestyledWrappper>
       </Modal>
     </>
   );

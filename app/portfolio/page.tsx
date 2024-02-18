@@ -22,6 +22,7 @@ import {
   MainBox,
   P,
   PrimaryButton,
+  SecondaryButton,
   StyledLink,
 } from '@/components/CommonComponents/Common-сomponents-style';
 import ESGPerformanceChart from '@/components/Portfolio/esg-performance-chart';
@@ -46,8 +47,16 @@ import {
   PortfolioTitleWrapper,
   StudyLink,
   PortfolioLeftContentColumn,
+  PortfolioAcountAmountBlock,
+  PortfolioAcountAmountBlockContent,
+  PortfolioRefillBlock,
+  PortfolioRefillBlockButtonsWrapper,
 } from '@/components/Portfolio/portfolio-page-styles';
 import { selectAccessKey } from '@/store/slices/sessionSlice';
+import { PortfolioCardItem, PortfolioCardNumbersWrapper, PortfolioCardNumbersColumnLeft, PortfolioCardTitle, PortfolioCardNumbersColumnRight, PortfolioCardAssentTitle, PortfolioNoSuccedCardAssentTitle } from '@/components/Portfolios/Portfolios-style';
+import link from 'next/link';
+import { number } from 'yup';
+import { SecondaryButtonForPortfolioCard } from '../settings/settings-style';
 
 ChartJS.register(
   CategoryScale,
@@ -70,15 +79,17 @@ export default function СPortfolio() {
     accessKeyRef.current = accessKey;
   }, [accessKey]);
 
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      if (!accessKeyRef.current) {
-        router.push('/');
-      }
-    }, 0);
+  // страница a2
+  // закладка - вернуть приватность
+  // useEffect(() => {
+  //   const timeoutId = setTimeout(() => {
+  //     if (!accessKeyRef.current) {
+  //       router.push('/');
+  //     }
+  //   }, 0);
 
-    return () => clearTimeout(timeoutId);
-  }, [router]);
+  //   return () => clearTimeout(timeoutId);
+  // }, [router]);
 
   const saveAsPDF = async () => {
     const page = pageRef.current;
@@ -103,6 +114,19 @@ export default function СPortfolio() {
   const handleClick = () => {
     saveAsPDF();
   };
+
+  // закладка - удалить
+  const profitability = 10
+
+  // закладка - b4
+  const handleRefill = (id) => {
+    console.log('handleRefill', id)
+}
+
+
+const handleDelete = (id) => {
+    console.log('handleRefill', id)
+}
 
   return (
     <MainBox>
@@ -149,6 +173,84 @@ export default function СPortfolio() {
           </PortfolioActionBlockButton>
         </PortfolioActionBlock>
 
+        {/* bookmark - a2 */}
+        {/* заклдака - сделать логику выводы */}
+        <PortfolioAcountAmountBlock>
+          <div>
+            <PortfolioBlockTitle variant="h2">
+            Demo acount
+            </PortfolioBlockTitle>
+
+            <P>Refill your account to start investing</P>
+          </div>
+
+          <PortfolioCardNumbersColumnRight>
+          {profitability > 0 ? (
+            <PortfolioCardAssentTitle>
+              {/* +{profitability}% */}
+              $ 10 000
+            </PortfolioCardAssentTitle>
+          ) : (
+            <PortfolioNoSuccedCardAssentTitle>
+              {/* {profitability}% */}
+              $ 10 000
+            </PortfolioNoSuccedCardAssentTitle>
+          )}
+          <P>+ 0% per year</P>
+        </PortfolioCardNumbersColumnRight>
+        </PortfolioAcountAmountBlock>
+
+        {/* bookmark - b4 */}
+        {/* заклдака - сделать логику выводы */}
+        <PortfolioRefillBlock>
+          <PortfolioAcountAmountBlockContent>
+
+          <div>
+            <PortfolioBlockTitle variant="h2">
+            Your investments
+            </PortfolioBlockTitle>
+
+            <P>Refill your account to start investing</P>
+          </div>
+
+          <PortfolioCardNumbersColumnRight>
+          {profitability > 0 ? (
+            <PortfolioCardAssentTitle>
+              {/* +{profitability}% */}
+              $ 0
+            </PortfolioCardAssentTitle>
+          ) : (
+            <PortfolioNoSuccedCardAssentTitle>
+              {/* {profitability}% */}
+              $ 0
+            </PortfolioNoSuccedCardAssentTitle>
+          )}
+          <P>+ 0% per year</P>
+        </PortfolioCardNumbersColumnRight>
+        </PortfolioAcountAmountBlockContent>
+
+        <PortfolioRefillBlockButtonsWrapper>
+          <PrimaryButton
+            type="button"
+            size="medium"
+            variant="contained"
+            onClick={() => handleRefill('id1')}
+          >
+            Refill
+          </PrimaryButton>
+          <SecondaryButton
+            type="button"
+            size="medium"
+            variant="contained"
+            onClick={() => handleDelete('id1')}
+          >
+            Replenishment History
+          </SecondaryButton>
+        </PortfolioRefillBlockButtonsWrapper>
+        </PortfolioRefillBlock>
+
+
+    
         <PortfolioContentBlock ref={pageRef}>
           <PortfolioLeftContentColumn>
             <PortfolioCompositionBlock
@@ -190,7 +292,7 @@ export default function СPortfolio() {
               }
             />
 
-            <PortfolioRightBlock>
+            {/* <PortfolioRightBlock>
               <PortfolioBlockTitle variant="h2">
                 ESG performance
               </PortfolioBlockTitle>
@@ -206,7 +308,7 @@ export default function СPortfolio() {
                   values={portfolioData.esgPerformance.values}
                 />
               </ESGPerformanceChartWrapper>
-            </PortfolioRightBlock>
+            </PortfolioRightBlock> */}
 
             <PortfolioRightBlock>
               <PortfolioBlockTitle variant="h2">
@@ -237,7 +339,7 @@ export default function СPortfolio() {
               </div>
             </PortfolioRightBlock>
 
-            <PortfolioEconomicDetailsBlock>
+            {/* <PortfolioEconomicDetailsBlock>
               <div>
                 <PortfolioBlockTitle variant="h2">
                   More economic details
@@ -247,7 +349,7 @@ export default function СPortfolio() {
               </div>
 
               <PrimaryButton>read</PrimaryButton>
-            </PortfolioEconomicDetailsBlock>
+            </PortfolioEconomicDetailsBlock> */}
           </div>
         </PortfolioContentBlock>
       </Container>

@@ -19,6 +19,7 @@ import {
   SurvayPartQuestionsCounter,
 } from '@/components/Survey/Survey-style';
 import { selectAccessKey } from '@/store/slices/sessionSlice';
+import ProgressBar from '../../../components/Progress-bar/Progress-bar';
 
 export interface ISortedQuestionSection {
   sectionTitle: string;
@@ -37,19 +38,20 @@ export default function Survey({ params: { id } }: Props) {
   const theme = useTheme();
   const accessKeyRef = useRef(accessKey);
 
-  useEffect(() => {
-    accessKeyRef.current = accessKey;
-  }, [accessKey]);
+  // закладка - вернуть приватность
+  // useEffect(() => {
+  //   accessKeyRef.current = accessKey;
+  // }, [accessKey]);
 
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      if (!accessKeyRef.current) {
-        router.push('/');
-      }
-    }, 0);
+  // useEffect(() => {
+  //   const timeoutId = setTimeout(() => {
+  //     if (!accessKeyRef.current) {
+  //       router.push('/');
+  //     }
+  //   }, 0);
 
-    return () => clearTimeout(timeoutId);
-  }, [router]);
+  //   return () => clearTimeout(timeoutId);
+  // }, [router]);
 
   const [questionList, setQuestionList] = useState<ISortedQuestionSection[]>(
     [],
@@ -71,19 +73,36 @@ export default function Survey({ params: { id } }: Props) {
   }, [portfolioId, getFirstList]);
 
   const goNext = () => {
+    console.log('goNext')
+    // сейчас или currentQuestion или currentPart косячит с обновлением
+    console.log('currentQuestion', currentQuestion)
+    console.log('currentPart', currentPart)
+
     if (
       questionList &&
       questionList[currentPart] &&
       questionList[currentPart].questions &&
       currentQuestion < questionList[currentPart].questions.length - 1
     ) {
+      console.log('косячный if 1')
       setCurrentQuestion((value) => value + 1);
     } else {
+      // условие 1 - вопрос последний
+      console.log('условие 1')
+      console.log('currentQuestion', currentQuestion)
+      console.log('questionList[currentPart].questions.length - 1', questionList[currentPart].questions.length - 1)
       if (currentPart < questionList.length - 1) {
+        console.log('косячный if 2')
         setCurrentPart((value) => value + 1);
         setCurrentQuestion(0);
       } else {
-        router.push(`/portfolio`);
+        // условие 2 - часть последняя последний
+        console.log('условие 2')
+        console.log('currentPart', currentPart)
+        console.log('questionList.length - 1', questionList.length - 1)
+
+        // bookmark 001
+        router.push(`/calculate-portfolios`);
       }
     }
   };
@@ -136,6 +155,30 @@ export default function Survey({ params: { id } }: Props) {
     sn_part2: 'Sensing / Intuition # 2',
   };
 
+  const [totalCurrentQuestion, setTotalCurrentQuestion] = useState(0)
+  const countCurrentQuestion1 = () => {
+    let acc = currentQuestion
+    if(currentPart>0) {
+      for(let partIndex = 0; partIndex < currentPart; partIndex++) {
+        acc += questionList[partIndex].questions.length
+      }
+    }
+    setTotalCurrentQuestion(acc+currentQuestion)
+  }
+  useEffect(() => {
+    countCurrentQuestion1()
+  }, [currentQuestion])
+
+  const [totalQuestionQuontity, setTotalQuestionQuontity] = useState(0)
+  const countTotalQuestionQuontity = () => {
+    let result = 0
+    questionList.forEach((part) => result += part.questions.length)
+    setTotalQuestionQuontity(result)
+  }
+  useEffect(() => {
+    countTotalQuestionQuontity()
+  }, [questionList])
+
   return (
     <MainBox>
       <Container
@@ -152,9 +195,7 @@ export default function Survey({ params: { id } }: Props) {
                 : 'Loading...'}
             </SurvayPartTitleTitle>
             <P>
-              If you exit, the answers are saved. You can always come back and
-              take the test to the end. There are a total of 38 questions in the
-              question. Answer thoughtfully to get the best result
+            There are a total of 38 questions. You can always come back and finish the questionnaire. We will save your answers if you log out while completing the survey. Answer as honestly and thoughtfully as possible to get the most suitable portfolio. 
             </P>
           </SurvayPartTitleWrapper>
 
@@ -183,7 +224,9 @@ export default function Survey({ params: { id } }: Props) {
               updateAnswers={updateAnswers}
               disableGoBackBtn={currentPart === 0 && currentQuestion === 0}
             />
-          </SurvayPartQuestionsWrapper>
+            
+            <ProgressBar currentQuestion={totalCurrentQuestion} totalQuestionQuontity={totalQuestionQuontity}/>
+                      </SurvayPartQuestionsWrapper>
         </SurvayWrapper>
       </Container>
     </MainBox>

@@ -91,20 +91,31 @@ export const SignInBoxRestyled = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down('sm')]: {
     top: '45%',
     left: '50%',
-    width: 330,
+    width: 320,
     minHeight: 250,
   },
 }));
 
 export const SignUpBoxRestyled = styled(Box)(({ theme }) => ({
+  maxHeight: 'calc(100vh - 64px)',
+  overflow: 'auto',
+  paddingTop: 1,
+  paddingBottom: 1,
+  backgroundColor: theme.palette.background.paper,
+  outline: 0,
+  [theme.breakpoints.down('sm')]: {
+    paddingTop: 1,
+    paddingBottom: 1,
+  },
+}));
+export const SignUpBoxRestyledWrappper = styled(Box)(({ theme }) => ({
   position: 'absolute' as 'absolute',
   top: '55%',
   left: '50%',
   width: 496,
-  minHeight: 588,
+  maxHeight: '100vh',
   transform: 'translate(-50%, -50%)',
-  backgroundColor: theme.palette.background.paper,
-  outline: 0,
+  paddingBottom: theme.spacing(4),
   [theme.breakpoints.down('sm')]: {
     top: '53%',
     left: '50%',
@@ -125,7 +136,7 @@ export const ForgotPasswordBoxRestyled = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down('sm')]: {
     top: '50%',
     left: '50%',
-    width: 400,
+    width: 320,
     minHeight: 155,
   },
 }));
@@ -142,7 +153,7 @@ export const ForgotPasswordMessageBoxRestyled = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down('sm')]: {
     top: '50%',
     left: '50%',
-    width: 400,
+    width: 320,
     height: 190,
   },
 }));

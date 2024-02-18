@@ -52,7 +52,7 @@ export default function StartTheQuestionnaire() {
           }
           titleText={'Creating a new investment portfolio'}
           mainText={
-            "Answer 38 questions and we'll create a unique, personalized portfolio for you"
+            "Answer 38 questions, and we'll create a unique, personalized portfolio."
           }
           buttonText={'Start the questionnaire'}
           onClick={handleStartQuestionnaire}

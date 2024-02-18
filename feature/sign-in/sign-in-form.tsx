@@ -216,7 +216,7 @@ const SignInForm = ({
           id="auth-form-forgot-password"
           onClick={ForgotPasswordForm}
         >
-          Forgot a password?
+          Have you forgotten your password?
         </ForgotPasswordInputLabelRestyled>
         <SignInLoadingButtonRestyled
           loading={isLoading}
