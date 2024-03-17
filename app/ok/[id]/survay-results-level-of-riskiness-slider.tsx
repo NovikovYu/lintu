@@ -5,7 +5,7 @@ import { Slider, useTheme } from '@mui/material';
 interface IProps {
   levelOfRisk: number;
 }
-const LevelOfRiskinessSlider: FC<IProps> = ({ levelOfRisk }) => {
+const SurvayResultLevelOfRiskinessSlider: FC<IProps> = ({ levelOfRisk }) => {
   const theme = useTheme();
 
   return (
@@ -13,8 +13,8 @@ const LevelOfRiskinessSlider: FC<IProps> = ({ levelOfRisk }) => {
       disabled={true}
       track={false}
       defaultValue={levelOfRisk}
-      max={5}
-      min={1}
+      max={6}
+      min={0}
       valueLabelDisplay="auto"
       marks={true}
       sx={{
@@ -32,4 +32,4 @@ const LevelOfRiskinessSlider: FC<IProps> = ({ levelOfRisk }) => {
   );
 };
 
-export default LevelOfRiskinessSlider;
+export default SurvayResultLevelOfRiskinessSlider;

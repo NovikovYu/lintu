@@ -1,7 +1,7 @@
 'use client';
 
 import { Color, ThemeProvider, createTheme } from '@mui/material';
-import { lightBlue } from '@mui/material/colors';
+import { blue, lightBlue } from '@mui/material/colors';
 // 24 12 2023 next-auth was disabled. Because I didn’t work in production
 // import { SessionProvider } from 'next-auth/react';
 import { Provider } from 'react-redux';
@@ -33,6 +33,7 @@ declare module '@mui/material/styles/createPalette' {
     colorsForDonutChart: Color;
     shadows: Color;
     lightBlue: Color;
+    blue: Color;
   }
   interface PaletteOptions {
     colorsForLineChart?: ColorPartial;
@@ -40,6 +41,7 @@ declare module '@mui/material/styles/createPalette' {
     colorsForDonutChart?: ColorPartial;
     shadows?: ColorPartial;
     lightBlue?: ColorPartial;
+    blue?: ColorPartial;
   }
 }
 
@@ -85,6 +87,7 @@ const theme = createTheme({
       A700: '#303030',
     },
     lightBlue,
+    blue,
     // for line graphs, where all lines have different colors
     colorsForLineChart: {
       50: '#00391e',
@@ -93,6 +96,7 @@ const theme = createTheme({
       300: '#00345c',
       400: '#cf7154',
       500: '#630800',
+      600: 'rgba(32, 162, 219, 0.3)',
     },
     // for columnar ones, where the level is simply shown
     colorsForBarChart: {

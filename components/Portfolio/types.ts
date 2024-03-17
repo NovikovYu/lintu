@@ -1,10 +1,10 @@
-export interface IPortfolioData {
-  portfolioComposition: { productGroups: IProductGroup[] };
-  exposures: IExposures;
-  historicalReturns: IHistoricalReturns;
-  esgPerformance: IDataSet;
-  levelOfRisk: number;
-}
+// export interface IPortfolioData {
+//   portfolioComposition: { productGroups: IProductGroup[] };
+//   exposures: IExposures;
+//   historicalReturns: IHistoricalReturns;
+//   esgPerformance: IDataSet;
+//   levelOfRisk: number;
+// }
 
 interface Product {
   ticket: string;
@@ -14,21 +14,22 @@ interface Product {
   currency?: string;
 }
 
-export interface IProductGroup {
-  productGroupLabel: string;
-  weight: number;
-  products: Product[];
-}
+// export interface IProductGroup {
+//   productGroupLabel: string;
+//   weight: number;
+//   products: Product[];
+// }
 
-export interface IInvestmentProductsGroup {
-  productGroups: IProductGroup[];
-}
+// export interface IInvestmentProductsGroup {
+//   productGroups: IProductGroup[];
+// }
 
 export interface IHistoricalReturns {
-  totalHistoricalReturns: number;
-  years: string[];
-  percentageReturn: IDataSetWithSingleLabel[];
-  currencyReturn: IDataSetWithSingleLabel[];
+  // totalHistoricalReturns: number;
+  // years: string[];
+  // percentageReturn: IDataSetWithSingleLabel[];
+  // currencyReturn: IDataSetWithSingleLabel[];
+  portfolioId: string;
 }
 
 export interface IHistoricalReturnsChart {
@@ -37,10 +38,21 @@ export interface IHistoricalReturnsChart {
   currencyReturn?: IDataSetWithSingleLabel[];
 }
 
+export interface IFinancialResultValueChart {
+  periods: string[];
+  data: number[];
+}
+export interface IFinancialResultPerformanceChart {
+  periods: string[];
+  data: number[];
+  benchmarkValues?: number[];
+}
+
 export interface IExposures {
-  exposuresSectors: IDataSet;
-  exposuresTop10Holdings: IDataSet;
-  exposuresCreditQuality: IDataSet;
+  // exposuresSectors: IDataSet;
+  // exposuresTop10Holdings: IDataSet;
+  // exposuresCreditQuality: IDataSet;
+  portfolioId: string;
 }
 export interface IDataSet {
   labels: string[];

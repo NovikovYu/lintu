@@ -6,6 +6,9 @@ import { UseFormSetError } from 'react-hook-form';
 import { NewPasswordFormTypes } from '@/app/change_password/[id]/page';
 import { IPortfolioCard, PortfolioModel } from '@/app/portfolios/page';
 import { ISortedQuestionSection } from '@/app/survey/[id]/page';
+import { IExposuresData } from '@/components/Portfolio/ExposuresBlock/exposures-block';
+import { IPortfolioOverallInfo } from '@/components/Portfolio/LevelOfRickBlock/level-of-rick-block';
+import { IFinancialResultData } from '@/components/Portfolio/ResultsBlock/financial-result-component';
 import { sortQuestionsBySections } from '@/components/Survey/utilities';
 import { ForgotPasswordFormTypes } from '@/feature/sign-in/forgot-password';
 import { SignInFormTypes } from '@/feature/sign-in/sign-in-form';
@@ -256,6 +259,86 @@ export const saveNewPassword = async (
     } catch (error) {
       console.error(error);
     }
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+export const portfolioPerformanceChartRequest = async (
+  chartData: any,
+  setIsLoading: (isLoading: boolean) => void,
+): Promise<IFinancialResultData | undefined> => {
+  setIsLoading(true);
+
+  try {
+    const response = await axios.post(
+      process.env.BASE_DEV_URL + 'portfolio/historic/',
+      // 'http://127.0.0.1:8000/api/v1/portfolio/historic/',
+      chartData,
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+interface exposuresChartRequestParams {
+  portfolio: string;
+}
+export const exposuresChartRequest = async (
+  params: exposuresChartRequestParams,
+  setIsLoading: (isLoading: boolean) => void,
+): Promise<IExposuresData | undefined> => {
+  setIsLoading(true);
+
+  try {
+    const response = await axios.post(
+      process.env.BASE_DEV_URL + 'exposures/',
+      params,
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+export const portfolioAmountSaveRequest = async (
+  params: exposuresChartRequestParams,
+  setIsLoading: (isLoading: boolean) => void,
+): Promise<IPortfolioOverallInfo | undefined> => {
+  setIsLoading(true);
+
+  try {
+    const response = await axios.post(
+      process.env.BASE_DEV_URL + 'save/',
+      params,
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+export const portfolioOverallInfoRequest = async (
+  params: exposuresChartRequestParams,
+  setIsLoading: (isLoading: boolean) => void,
+): Promise<IPortfolioOverallInfo | undefined> => {
+  setIsLoading(true);
+
+  try {
+    const response = await axios.post(
+      process.env.BASE_DEV_URL + 'risk_score/',
+      params,
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
   } finally {
     setIsLoading(false);
   }

@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useTheme } from '@mui/material';
 
+import { IEtfAllocation } from '../ExposuresBlock/exposures-block';
 import {
   InvestmentProductsGroupWrapper,
   InvestmentProductGroupLabel,
@@ -11,28 +12,49 @@ import {
   InvestmentProductTitle,
   InvestmentProductSubtitle,
   InvestmentProductDescription,
-} from './portfolio-page-styles';
-import { IInvestmentProductsGroup } from './types';
+} from '../portfolio-page-styles';
+// import { IInvestmentProductsGroup } from '../types';
 
 const enum currency {
   usd = '$',
 }
 
+interface IInvestmentProductsGroup {
+  // productGroups: IProductGroup[];
+  etfAllocations: {
+    groupName: string;
+    groupData: IEtfAllocation[];
+  }[];
+}
+
+// const PortfolioCompositionChart: FC<IPortfolioCompositionChart> = ({
+//   // productGroups,
+//   etfAllocations,
+// }) => {
+
 const InvestmentProductsGroup: React.FC<IInvestmentProductsGroup> = ({
-  productGroups,
+  etfAllocations,
 }) => {
   const theme = useTheme();
 
   return (
     <>
-      {productGroups.map((group, index) => {
+      {/* // groupName: 'U.S. Stocks',
+  // groupData: [
+  //   {
+  //     fundName: 'iShares Core S&P 500 ETF',
+  //     weight: 32.6,
+  //     dollarsAmount: 110,
+  //     numberOfShares: 12,
+  //   }, */}
+      {etfAllocations.map((group, index) => {
         return (
-          <InvestmentProductsGroupWrapper key={group.productGroupLabel}>
+          <InvestmentProductsGroupWrapper key={group.groupName}>
             <InvestmentProductGroupLabel variant="h5">
-              {group.productGroupLabel}
+              {group.groupName}
             </InvestmentProductGroupLabel>
 
-            {group.products.map((product) => {
+            {group.groupData.map((product) => {
               return (
                 <InvestmentProductWrapper
                   key={product.ticket}
@@ -53,12 +75,14 @@ const InvestmentProductsGroup: React.FC<IInvestmentProductsGroup> = ({
                   </CustomInvestmentProductLabelWrapper>
                   <InvestmentProductDescription>
                     <InvestmentProductTitle variant="h6">
-                      {product.label}
+                      {product.fundName}
                     </InvestmentProductTitle>
                     <InvestmentProductSubtitle>
-                      Allocation: {product.allocationPercentage}%,{' '}
+                      {/* Allocation: {product.allocationPercentage}%,{' '}
                       {product.currency &&
-                        ` ${product.allocationСurrency} ${currency['usd']}`}
+                        ` ${product.allocationСurrency} ${currency['usd']}`} */}
+                      Allocation: {product.weight}%, {product.dollarsAmount}{' '}
+                      {currency['usd']}
                     </InvestmentProductSubtitle>
                   </InvestmentProductDescription>
                 </InvestmentProductWrapper>

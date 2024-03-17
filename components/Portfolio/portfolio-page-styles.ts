@@ -161,6 +161,14 @@ export const PortfolioLeftContentColumn = styled(Box)(({ theme }) => ({
     maxWidth: '368px',
   },
 }));
+export const PortfolioRigthContentColumn = styled(Box)(({ theme }) => ({
+  width: '100%',
+  // maxWidth: '564px',
+
+  // [theme.breakpoints.up('md')]: {
+  //   maxWidth: '368px',
+  // },
+}));
 
 export const PortfolioStudyBlockWrapper = styled(Box)(({ theme }) => ({
   width: '100%',

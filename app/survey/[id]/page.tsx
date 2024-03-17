@@ -73,10 +73,10 @@ export default function Survey({ params: { id } }: Props) {
   }, [portfolioId, getFirstList]);
 
   const goNext = () => {
-    console.log('goNext');
+    // console.log('goNext');
     // сейчас или currentQuestion или currentPart косячит с обновлением
-    console.log('currentQuestion', currentQuestion);
-    console.log('currentPart', currentPart);
+    // console.log('currentQuestion', currentQuestion);
+    // console.log('currentPart', currentPart);
 
     if (
       questionList &&
@@ -84,28 +84,28 @@ export default function Survey({ params: { id } }: Props) {
       questionList[currentPart].questions &&
       currentQuestion < questionList[currentPart].questions.length - 1
     ) {
-      console.log('косячный if 1');
+      // console.log('косячный if 1');
       setCurrentQuestion((value) => value + 1);
     } else {
       // условие 1 - вопрос последний
-      console.log('условие 1');
-      console.log('currentQuestion', currentQuestion);
-      console.log(
-        'questionList[currentPart].questions.length - 1',
-        questionList[currentPart].questions.length - 1,
-      );
+      // console.log('условие 1');
+      // console.log('currentQuestion', currentQuestion);
+      // console.log(
+      //   'questionList[currentPart].questions.length - 1',
+      //   questionList[currentPart].questions.length - 1,
+      // );
       if (currentPart < questionList.length - 1) {
-        console.log('косячный if 2');
+        // console.log('косячный if 2');
         setCurrentPart((value) => value + 1);
         setCurrentQuestion(0);
       } else {
         // условие 2 - часть последняя последний
-        console.log('условие 2');
-        console.log('currentPart', currentPart);
-        console.log('questionList.length - 1', questionList.length - 1);
+        // console.log('условие 2');
+        // console.log('currentPart', currentPart);
+        // console.log('questionList.length - 1', questionList.length - 1);
 
         // bookmark 001
-        router.push(`/calculate-portfolios`);
+        router.push(`/ok/${portfolioId}`);
       }
     }
   };

@@ -19,8 +19,8 @@ const CompletedButEmptyPortfolioCardItem: FC<IProps> = ({ id }) => {
   const router = useRouter();
 
   const continueQuestionnaire = () => {
-    // router.push(`/portfolio/${id}`);
-    router.push(`/portfolio`);
+    router.push(`/portfolio/${id}`);
+    // router.push(`/portfolio`);
   };
 
   return (

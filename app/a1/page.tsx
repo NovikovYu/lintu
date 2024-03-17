@@ -37,7 +37,6 @@ export default function CongratulationsOnRegistering() {
     } else {
       setAmount(value[0]);
     }
-    console.log('создаем тестовый аккаунт и переводим на а2', amount);
   };
 
   return (
