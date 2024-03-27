@@ -1,7 +1,7 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 
+import { Tooltip } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 
@@ -9,6 +9,7 @@ import {
   SurvayAnswersWrapper,
   SurvayButtonsWrapper,
   SurvayQuestion,
+  SurvayRadioAnswer,
 } from './Survey-style';
 import {
   SecondaryButton,
@@ -48,6 +49,7 @@ const Question = ({
   disableGoBackBtn,
 }: IProps) => {
   const [value, setValue] = useState<string[]>([]);
+  const [openTooltip, setOpenTooltip] = useState(false);
 
   const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
     setValue([(event.target as HTMLInputElement).value]);
@@ -66,11 +68,16 @@ const Question = ({
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (question) {
-      updateAnswers(question.question_id, value);
-      setValue([]);
-      goNext();
-    }
+    setOpenTooltip(true);
+
+    setTimeout(() => {
+      if (question) {
+        updateAnswers(question.question_id, value);
+        setValue([]);
+        setOpenTooltip(false);
+        goNext();
+      }
+    }, 1000);
   };
 
   useEffect(() => {
@@ -82,6 +89,13 @@ const Question = ({
   if (!question) {
     return <SurvayQuestion>Loading...</SurvayQuestion>;
   }
+
+  const handleTooltipClose = () => {
+    setOpenTooltip(false);
+  };
+  const handleTooltipOpen = () => {
+    setOpenTooltip(true);
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -110,7 +124,7 @@ const Question = ({
         <SurvayAnswersWrapper>
           <RadioGroup value={value} onChange={handleRadioChange}>
             {question.question_answers.map((answer, i) => (
-              <FormControlLabel
+              <SurvayRadioAnswer
                 key={answer.answer_id}
                 value={answer.answer_id}
                 control={<Radio />}
@@ -119,7 +133,6 @@ const Question = ({
             ))}
           </RadioGroup>
         </SurvayAnswersWrapper>
-        {/* )} */}
 
         <SurvayButtonsWrapper>
           <SecondaryButton
@@ -132,14 +145,28 @@ const Question = ({
             Previous
           </SecondaryButton>
 
-          <PrimaryButton
-            type="submit"
-            size="large"
-            variant="contained"
-            disabled={value.length === 0}
+          <Tooltip
+            title="The answer is saved"
+            placement="top"
+            arrow
+            PopperProps={{
+              disablePortal: true,
+            }}
+            onClose={handleTooltipClose}
+            open={openTooltip}
+            disableFocusListener
+            disableHoverListener
+            disableTouchListener
           >
-            next
-          </PrimaryButton>
+            <PrimaryButton
+              type="submit"
+              size="large"
+              variant="contained"
+              disabled={value.length === 0}
+            >
+              next
+            </PrimaryButton>
+          </Tooltip>
         </SurvayButtonsWrapper>
       </FormControl>
     </form>

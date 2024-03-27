@@ -1,7 +1,7 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { ChangeEventHandler, useEffect, useState } from 'react';
 
-import { CircularProgress, Container, useTheme } from '@mui/material';
+import { CircularProgress, Container, Input, useTheme } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -20,12 +20,15 @@ import { selectAccessKey } from '@/store/slices/sessionSlice';
 import PortfolioAmountSlider from './portfolio-amount-slider';
 import {
   SurvayResultsAmountSliderWrapper,
+  SurvayResultsInput,
   SurvayResultsRiskLoader,
   SurvayResultsSliderMarksText,
   SurvayResultsSliderMarksTextWrapper,
   SurvayResultsSubtitle,
   SurvayResultsText,
+  SurvayResultsTextBigBold,
   SurvayResultsTextBold,
+  SurvayResultsTextWrapper,
   SurvayResultsTitle,
 } from './style-survay-results';
 
@@ -55,24 +58,19 @@ export default function CongratulationsOnRegistering({
   const [amount, setAmount] = useState(INITIAL_AMOUNT);
 
   const handleOpenSignin = async () => {
-    // dispatch(setSigninPopupState(true));
-    console.log('создаем тестовый аккаунт и переводим на а2', amount);
-
     const requestBody = {
       portfolio: portfolioId,
-      amount: amount,
+      investment: amount,
     };
 
-    console.log('requestBody', requestBody);
-
     const response: IPortfolioOverallInfo | undefined =
-      await portfolioAmountSaveRequest(requestBody, setIsLoading);
+      await portfolioAmountSaveRequest(accessKey, requestBody, setIsLoading);
 
-    console.log('response', response);
+    console.log('handleOpenSignin response', response);
 
-    // if (response) {
-    router.push(`/portfolio/${portfolioId}`);
-    // }
+    if (response) {
+      router.push(`/portfolio/${portfolioId}`);
+    }
   };
 
   const handleSetAmount = (value: number | number[]) => {
@@ -82,6 +80,20 @@ export default function CongratulationsOnRegistering({
     } else {
       setAmount(value[0]);
     }
+  };
+
+  const handleInputAmount: ChangeEventHandler<
+    HTMLInputElement | HTMLTextAreaElement
+  > = (e) => {
+    // dispatch(setSigninPopupState(true));
+    // console.log('333 e', e);
+    // console.log('333 e.target.value', e.target.value);
+    setAmount(parseInt(e.target.value));
+    // if (typeof value === 'number') {
+    //   setAmount(value);
+    // } else {
+    //   setAmount(value[0]);
+    // }
   };
 
   // LOADING
@@ -95,12 +107,12 @@ export default function CongratulationsOnRegistering({
         portfolio: portfolioId,
       };
 
-      console.log('requestBody', requestBody);
+      // console.log('requestBody', requestBody);
 
       const response: IPortfolioOverallInfo | undefined =
-        await portfolioOverallInfoRequest(requestBody, setIsLoading);
+        await portfolioOverallInfoRequest(accessKey, requestBody, setIsLoading);
 
-      console.log('response', response);
+      // console.log('response', response);
 
       if (response && response['Risk tolerance']) {
         setDataToDispaly(response);
@@ -108,9 +120,12 @@ export default function CongratulationsOnRegistering({
         setDataToDispaly(portfolioOverallInfoMockData);
       }
     };
-
-    fetchData();
-  }, []);
+    if (accessKey) {
+      // console.log('accessKey >>>', accessKey);
+      fetchData();
+    }
+    // }, [accessKey]);
+  }, [accessKey, portfolioId]);
 
   const riskTolerance = dataToDispaly && dataToDispaly['Risk tolerance'];
   return (
@@ -134,19 +149,19 @@ export default function CongratulationsOnRegistering({
           {dataToDispaly ? (
             <>
               <SurvayResultsText>
-                Risk Tolerance:
+                Risk Tolerance:{'   '}
                 <SurvayResultsTextBold>
                   {dataToDispaly['Risk tolerance']}
                 </SurvayResultsTextBold>
               </SurvayResultsText>
               <SurvayResultsText>
-                Investment Goals:
+                Investment Goals:{'   '}
                 <SurvayResultsTextBold>
                   {dataToDispaly['Investment Goals']}
                 </SurvayResultsTextBold>
               </SurvayResultsText>
               <SurvayResultsText>
-                Investment Strategy:
+                Investment Strategy:{'   '}
                 <SurvayResultsTextBold>
                   {dataToDispaly['Investment Strategy']}
                 </SurvayResultsTextBold>
@@ -162,7 +177,7 @@ export default function CongratulationsOnRegistering({
           </SurvayResultsSubtitle>
           <SurvayResultsAmountSliderWrapper>
             <PortfolioAmountSlider
-              defaultValue={INITIAL_AMOUNT}
+              amount={amount}
               setAmount={handleSetAmount}
             />
             <SurvayResultsSliderMarksTextWrapper>
@@ -174,9 +189,15 @@ export default function CongratulationsOnRegistering({
               </SurvayResultsSliderMarksText>
             </SurvayResultsSliderMarksTextWrapper>
           </SurvayResultsAmountSliderWrapper>
-          <SurvayResultsText>
-            <SurvayResultsTextBold>Invest {amount} USD</SurvayResultsTextBold>
-          </SurvayResultsText>
+          <SurvayResultsTextWrapper>
+            <SurvayResultsTextBigBold>Invest</SurvayResultsTextBigBold>
+            <SurvayResultsInput
+              type={'number'}
+              value={amount}
+              onChange={handleInputAmount}
+            />
+            <SurvayResultsTextBigBold>USD</SurvayResultsTextBigBold>
+          </SurvayResultsTextWrapper>
           <PrimaryButton
             type="button"
             size="large"

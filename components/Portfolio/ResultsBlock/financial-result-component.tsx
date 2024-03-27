@@ -7,12 +7,14 @@ import FormControl from '@mui/material/FormControl';
 // import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { useSelector } from 'react-redux';
 
 import {
   portfolioPerformanceChartRequest,
   // signIn
 } from '@/actions/actions';
 import { P } from '@/components/CommonComponents/Common-сomponents-style';
+import { selectAccessKey } from '@/store/slices/sessionSlice';
 
 import {
   ResultsbenchmarkSelectWrapper,
@@ -71,6 +73,7 @@ const FinancialResultComponent: React.FC<IHistoricalReturns> = ({
   // currencyReturn,
   portfolioId,
 }) => {
+  const accessKey = useSelector(selectAccessKey);
   // ДАННЫЕ С БЭКА
   // ТИП performance / value
   const [resultsSwitcherState, setResultsSwitcherState] =
@@ -101,14 +104,15 @@ const FinancialResultComponent: React.FC<IHistoricalReturns> = ({
         benchmark,
       };
 
-      console.log('requestBody', requestBody);
+      // console.log('requestBody', requestBody);
 
       const response = await portfolioPerformanceChartRequest(
+        accessKey,
         requestBody,
         setIsLoading,
       );
 
-      console.log('response', response);
+      // console.log('response', response);
 
       if (response) {
         setDataToDispaly(response);
@@ -117,8 +121,16 @@ const FinancialResultComponent: React.FC<IHistoricalReturns> = ({
       }
     };
 
-    fetchData();
-  }, [portfolioId, resultsSwitcherState, resultsChartsPeriod, benchmark]);
+    if (accessKey) {
+      fetchData();
+    }
+  }, [
+    accessKey,
+    portfolioId,
+    resultsSwitcherState,
+    resultsChartsPeriod,
+    benchmark,
+  ]);
 
   return (
     <ResultsBlock>
@@ -209,6 +221,7 @@ const FinancialResultComponent: React.FC<IHistoricalReturns> = ({
           <FinancialResultValueChart
             periods={Object.keys(dataToDispaly.portfolio_graph)}
             data={Object.values(dataToDispaly.portfolio_graph)}
+            resultsChartsPeriod={resultsChartsPeriod}
           />
         )}
 
@@ -221,6 +234,7 @@ const FinancialResultComponent: React.FC<IHistoricalReturns> = ({
                 ? Object.values(dataToDispaly.benchmark_graph)
                 : undefined
             }
+            resultsChartsPeriod={resultsChartsPeriod}
           />
         )}
       </ResultsChartsWrapper>

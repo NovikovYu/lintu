@@ -20,8 +20,8 @@ export default function Home() {
         <InfoPageContent
           imgSrc={'/business-product-planning-and-research.png'}
           imgAlt={'our analytic is ckecking each users'}
-          titleText={'Sign In or Sign Up'}
-          mainText={'Lintu functionality is available only to authorized users'}
+          titleText={'Log In or Sign Up'}
+          mainText={'Explore full Lintu features after signing up!'}
         />
       </Container>
     </MainBox>

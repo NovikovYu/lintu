@@ -79,12 +79,13 @@ const LevelOfRiskBlock: FC<IExposures> = ({ portfolioId }) => {
         portfolio: portfolioId,
       };
 
-      console.log('requestBody', requestBody);
+      // console.log('requestBody', requestBody);
 
       const response: IPortfolioOverallInfo | undefined =
+        // @ts-ignore
         await portfolioOverallInfoRequest(requestBody, setIsLoading);
 
-      console.log('response', response);
+      // console.log('response', response);
 
       if (response && response['Risk tolerance']) {
         setDataToDispaly(response);

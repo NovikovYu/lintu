@@ -74,9 +74,18 @@ export const options: ChartOptions<'line'> = {
   },
 };
 
+const PERIOD_INTERVAL_FORMATS: Record<string, string> = {
+  '1mo': 'Do MMM', // "день" = "27th Feb"
+  '3mo': 'WW GGGG', // "неделя" = "39 2024"
+  '1y': 'WW GGGG', // "неделя" = "39 2024"
+  '2y': 'MMM YY', // "месяц" = "Mar 24"
+  '5y': 'MMM YY', // "месяц" = "Mar 24"
+};
+
 const FinancialResultValueChart: FC<IFinancialResultValueChart> = ({
   periods,
   data,
+  resultsChartsPeriod,
 }) => {
   const theme = useTheme();
 
@@ -87,7 +96,9 @@ const FinancialResultValueChart: FC<IFinancialResultValueChart> = ({
       options={options}
       data={{
         labels: periods.map((period) => {
-          return moment(period).format('Do MMM');
+          return moment(period).format(
+            PERIOD_INTERVAL_FORMATS[resultsChartsPeriod],
+          );
         }),
         datasets: [
           {

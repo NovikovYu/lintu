@@ -16,7 +16,7 @@ export const schemaEmailValidation = yup.object().shape({
 export const schemaPasswordValidation = yup.object().shape({
   password: yup
     .string()
-    .matches(REG_PASSWORD, ' ')
+    // .matches(REG_PASSWORD, ' ')
     .min(8, ERROR_MESSAGE_PASSWORD_FIELD)
     .required(ERROR_MESSAGE_INPUT_PASSWORD_FIELD),
 });
@@ -59,8 +59,8 @@ export const signAppSchema = yup
     phone_number: yup.string().required('Input your number'),
     isAccepted: yup
       .bool()
-      .required('You need to agree with the terms&conditions')
-      .oneOf([true], 'You need to agree with the terms&conditions'),
+      .required('You need to agree with the terms & conditions')
+      .oneOf([true], 'You need to agree with the terms & conditions'),
     country: yup.string(),
   })
   .concat(schemaEmailValidation)
@@ -72,7 +72,7 @@ export const schemaNewPasswordValidation = yup
   .shape({
     new_password: yup
       .string()
-      .matches(REG_PASSWORD, ' ')
+      // .matches(REG_PASSWORD, ' ')
       .min(8, ERROR_MESSAGE_PASSWORD_FIELD)
       .required(ERROR_MESSAGE_INPUT_PASSWORD_FIELD),
   })

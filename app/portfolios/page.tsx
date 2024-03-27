@@ -63,6 +63,7 @@ export default function Portfolios() {
 
     const fetchData = async () => {
       const data = await getQuestionnairesList(accessKey);
+      // console.log('data >>>', data);
       if (data?.portfolio_data) {
         setQuestionnairesList(data.portfolio_data);
       }

@@ -9,10 +9,19 @@ import { P } from '@/components/CommonComponents/Common-сomponents-style';
 
 import { IFinancialResultPerformanceChart } from '../types';
 
+const PERIOD_INTERVAL_FORMATS: Record<string, string> = {
+  '1mo': 'Do MMM', // "день" = "27th Feb"
+  '3mo': 'WW GGGG', // "неделя" = "39 2024"
+  '1y': 'WW GGGG', // "неделя" = "39 2024"
+  '2y': 'MMM YY', // "месяц" = "Mar 24"
+  '5y': 'MMM YY', // "месяц" = "Mar 24"
+};
+
 const FinancialResultPerformanceChart: FC<IFinancialResultPerformanceChart> = ({
   periods,
   data,
   benchmarkValues,
+  resultsChartsPeriod,
 }) => {
   const theme = useTheme();
 
@@ -82,7 +91,9 @@ const FinancialResultPerformanceChart: FC<IFinancialResultPerformanceChart> = ({
         ticks: {
           callback: (value: number, index: number, values: any) => {
             // Форматирование меток оси X
-            return moment(periods[value]).format('Do MMM');
+            return moment(periods[value]).format(
+              PERIOD_INTERVAL_FORMATS[resultsChartsPeriod],
+            );
           },
         },
       },
@@ -101,7 +112,9 @@ const FinancialResultPerformanceChart: FC<IFinancialResultPerformanceChart> = ({
 
   // Преобразование данных для графика
   const chartData = {
-    labels: periods.map((period) => moment(period).format('Do MMM')),
+    labels: periods.map((period) =>
+      moment(period).format(PERIOD_INTERVAL_FORMATS[resultsChartsPeriod]),
+    ),
     datasets: [
       {
         label: data,

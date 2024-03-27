@@ -96,13 +96,12 @@ export default function Survey({ params: { id } }: Props) {
 
   const onSubmit: SubmitHandler<ForgotPasswordFormTypes> = async (data) => {
     if (isValidForm(data)) {
-      console.log('onSubmit data >>', data);
+      // console.log('onSubmit data >>', data);
       // const resetPasswordResult = await resetPassword(
       //   { email: data.email },
       //   setIsLoading,
       //   setError,
       // );
-
       // if (resetPasswordResult?.status === 200) {
       //   handleCloseForgotPasswordModal();
       //   handleOpenForgotPasswordMessageModal();

@@ -31,7 +31,7 @@ interface Props {
 }
 
 function Header({ handleOpenSignInModal }: Props) {
-  console.log('rep: main, date: 17.03.2024 19_28');
+  console.log('rep: main, date: 27.03.2024 20_43');
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -49,7 +49,7 @@ function Header({ handleOpenSignInModal }: Props) {
   // const session = useSession();
   // useEffect(() => {
   //   if (session?.error === 'RefreshAccessTokenError') {
-  //     signIn(); // Force sign in to hopefully resolve error
+  //     signIn(); // Force Log In to hopefully resolve error
   //   }
   // }, [session]);
 
@@ -101,7 +101,7 @@ function Header({ handleOpenSignInModal }: Props) {
                 </SignInButtonRestyled>
               ) : (
                 <SignInButtonRestyled href="#" onClick={handleOpenSignInModal}>
-                  Sign In
+                  Log In
                 </SignInButtonRestyled>
               )}
             </HeaderWrapper>
@@ -125,7 +125,7 @@ function Header({ handleOpenSignInModal }: Props) {
               </SignInButtonRestyled>
             ) : (
               <SignInButtonRestyled href="#" onClick={handleOpenSignInModal}>
-                Sign In
+                Log In
               </SignInButtonRestyled>
             )}
             <MenuIconButtonRestyled

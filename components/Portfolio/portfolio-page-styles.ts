@@ -2,6 +2,7 @@ import { Box, Button, Link, Typography } from '@mui/material';
 import { Theme, styled } from '@mui/material/styles';
 
 import {
+  P,
   PrimaryButton,
   StyledLink,
 } from '../CommonComponents/Common-сomponents-style';
@@ -163,6 +164,7 @@ export const PortfolioLeftContentColumn = styled(Box)(({ theme }) => ({
 }));
 export const PortfolioRigthContentColumn = styled(Box)(({ theme }) => ({
   width: '100%',
+  margin: '0 auto',
   // maxWidth: '564px',
 
   // [theme.breakpoints.up('md')]: {
@@ -247,7 +249,8 @@ export const InvestmentProductGroupLabel = styled(Typography)(({ theme }) => ({
   color: theme.palette.text.primary,
 }));
 
-export const InvestmentProductWrapper = styled(Link)(({ theme }) => ({
+// export const InvestmentProductWrapper = styled(Link)(({ theme }) => ({
+export const InvestmentProductWrapper = styled(P)(({ theme }) => ({
   display: 'flex',
   marginBottom: theme.spacing(1.5),
   textDecoration: 'none',
@@ -314,6 +317,8 @@ export const PortfolioRightBlock = styled(Box)(({ theme }) => ({
   width: '100%',
   maxWidth: '564px',
   marginBottom: theme.spacing(3),
+  marginLeft: 'auto',
+  marginRight: 'auto',
   padding: theme.spacing(2),
   borderRadius: theme.spacing(0.5),
   backgroundColor: theme.palette.primary.contrastText,

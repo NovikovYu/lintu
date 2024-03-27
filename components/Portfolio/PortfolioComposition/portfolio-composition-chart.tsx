@@ -13,7 +13,11 @@ import { Doughnut } from 'react-chartjs-2';
 
 import { EMPTY_STRING_FN, NOOP } from '@/feature/constants';
 
-import { ACTIVE_GROUPS_COLORS } from '../constants';
+import {
+  ACTIVE_GROUPS_COLORS,
+  BONDS_COLORS,
+  EQUITIES_COLORS,
+} from '../constants';
 import { IEtfAllocation } from '../ExposuresBlock/exposures-block';
 // import { IProductGroup } from '../types';
 
@@ -21,61 +25,76 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 interface IPortfolioCompositionChart {
   // productGroups: IProductGroup[];
-  etfAllocations: {
-    groupName: string;
-    groupData: IEtfAllocation[];
-  }[];
+  // etfAllocations: {
+  //   groupName: string;
+  //   groupData: IEtfAllocation[];
+  // }[];
+  data2: any[];
 }
 
 const PortfolioCompositionChart: FC<IPortfolioCompositionChart> = ({
   // productGroups,
-  etfAllocations,
+  // etfAllocations,
+  data2,
 }) => {
-  const theme = useTheme();
-  // const labels = productGroups.map((group) => group.productGroupLabel);
+  // ДО 25.03
+  // const theme = useTheme();
+  // // const labels = productGroups.map((group) => group.productGroupLabel);
+  // // // now in mock data the weight of the group is stored as a share (“0.4”) of the portfolio, and in the chart description we display the percentage of the portfolio (multiply the share by 100)
+  // // const values = productGroups.map((group) => group.weight * 100);
+
+  // // groupName: 'U.S. Stocks',
+  // // groupData: [
+  // //   {
+  // //     fundName: 'iShares Core S&P 500 ETF',
+  // //     weight: 32.6,
+  // //     dollarsAmount: 110,
+  // //     numberOfShares: 12,
+  // //   },
+  // const labels = etfAllocations.map((group) => group.groupName);
   // // now in mock data the weight of the group is stored as a share (“0.4”) of the portfolio, and in the chart description we display the percentage of the portfolio (multiply the share by 100)
-  // const values = productGroups.map((group) => group.weight * 100);
+  // const values = etfAllocations.map((group) =>
+  //   group.groupData.reduce(
+  //     (accumulator, currentValue) => accumulator + currentValue.weight,
+  //     0,
+  //   ),
+  // );
 
-  // groupName: 'U.S. Stocks',
-  // groupData: [
-  //   {
-  //     fundName: 'iShares Core S&P 500 ETF',
-  //     weight: 32.6,
-  //     dollarsAmount: 110,
-  //     numberOfShares: 12,
-  //   },
-  const labels = etfAllocations.map((group) => group.groupName);
-  // now in mock data the weight of the group is stored as a share (“0.4”) of the portfolio, and in the chart description we display the percentage of the portfolio (multiply the share by 100)
-  const values = etfAllocations.map((group) =>
-    group.groupData.reduce(
-      (accumulator, currentValue) => accumulator + currentValue.weight,
-      0,
-    ),
-  );
+  // // const handleLabelClick = () => {
+  // //   const url = 'https://ru.wikipedia.org/wiki/URL';
+  // //   window.open(url, '_blank');
+  // // };
 
-  const handleLabelClick = () => {
-    const url = 'https://ru.wikipedia.org/wiki/URL';
-    window.open(url, '_blank');
-  };
-
-  const handleChartClick = (event: ChartEvent, elements: ActiveElement[]) => {
-    if (elements.length > 0) {
-      handleLabelClick();
-    }
-  };
+  // const handleChartClick = (event: ChartEvent, elements: ActiveElement[]) => {
+  //   if (elements.length > 0) {
+  //     handleLabelClick();
+  //   }
+  // };
 
   return (
     <Doughnut
       data={{
-        labels: labels.map((label, i) => `${values[i]}% ${label}`),
+        // labels: labels.map((label, i) => `${values[i]}% ${label}`),
+        // datasets: [
+        //   {
+        //     label: '% of portfolio',
+        //     data: values,
+        //     // backgroundColor: Object.values(theme.palette.colorsForDonutChart),
+        //     backgroundColor: labels.map(
+        //       (label) => ACTIVE_GROUPS_COLORS[label] || 'black',
+        //     ),
+        //   },
+        // ],
+
+        labels: data2.map(
+          (assetItem, i) => `${assetItem.allocation2}% ${assetItem.asset2}`,
+        ),
         datasets: [
           {
             label: '% of portfolio',
-            data: values,
+            data: data2.map((assetItem, i) => assetItem.allocation2),
             // backgroundColor: Object.values(theme.palette.colorsForDonutChart),
-            backgroundColor: labels.map(
-              (label) => ACTIVE_GROUPS_COLORS[label] || 'black',
-            ),
+            backgroundColor: data2.map((assetItem, i) => assetItem.bg2),
           },
         ],
       }}
@@ -95,7 +114,7 @@ const PortfolioCompositionChart: FC<IPortfolioCompositionChart> = ({
             },
           },
         },
-        onClick: handleChartClick,
+        // onClick: handleChartClick,
       }}
     />
   );

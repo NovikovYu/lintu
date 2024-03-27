@@ -3,20 +3,15 @@ import React, { FC } from 'react';
 import { Slider, useTheme } from '@mui/material';
 
 interface IProps {
-  defaultValue: number;
+  amount: number;
   setAmount: (amount: number | number[]) => void;
 }
 
-function valuetext(value: number) {
-  return `${value}°C`;
-}
-
-const PortfolioAmountSlider: FC<IProps> = ({ defaultValue, setAmount }) => {
+const PortfolioAmountSlider: FC<IProps> = ({ amount, setAmount }) => {
   const theme = useTheme();
-
   return (
     <Slider
-      defaultValue={defaultValue}
+      value={amount}
       max={100000}
       min={1000}
       valueLabelDisplay="auto"

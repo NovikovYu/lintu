@@ -21,10 +21,11 @@ const enum currency {
 
 interface IInvestmentProductsGroup {
   // productGroups: IProductGroup[];
-  etfAllocations: {
-    groupName: string;
-    groupData: IEtfAllocation[];
-  }[];
+  // etfAllocations: {
+  //   groupName: string;
+  //   groupData: IEtfAllocation[];
+  // }[];
+  data2: any[];
 }
 
 // const PortfolioCompositionChart: FC<IPortfolioCompositionChart> = ({
@@ -33,62 +34,38 @@ interface IInvestmentProductsGroup {
 // }) => {
 
 const InvestmentProductsGroup: React.FC<IInvestmentProductsGroup> = ({
-  etfAllocations,
+  // etfAllocations,
+  data2,
 }) => {
   const theme = useTheme();
 
   return (
     <>
-      {/* // groupName: 'U.S. Stocks',
-  // groupData: [
-  //   {
-  //     fundName: 'iShares Core S&P 500 ETF',
-  //     weight: 32.6,
-  //     dollarsAmount: 110,
-  //     numberOfShares: 12,
-  //   }, */}
-      {etfAllocations.map((group, index) => {
+      {data2.map((product) => {
         return (
-          <InvestmentProductsGroupWrapper key={group.groupName}>
-            <InvestmentProductGroupLabel variant="h5">
-              {group.groupName}
-            </InvestmentProductGroupLabel>
-
-            {group.groupData.map((product) => {
-              return (
-                <InvestmentProductWrapper
-                  key={product.ticket}
-                  href="https://www.google.com/"
-                  target="_blank"
-                >
-                  <CustomInvestmentProductLabelWrapper
-                    color={
-                      Object.values(theme.palette.colorsForDonutChart)[
-                        index
-                      ] as string
-                    }
-                    theme={theme}
-                  >
-                    <InvestmentProductTicket>
-                      {product.ticket}
-                    </InvestmentProductTicket>
-                  </CustomInvestmentProductLabelWrapper>
-                  <InvestmentProductDescription>
-                    <InvestmentProductTitle variant="h6">
-                      {product.fundName}
-                    </InvestmentProductTitle>
-                    <InvestmentProductSubtitle>
-                      {/* Allocation: {product.allocationPercentage}%,{' '}
-                      {product.currency &&
-                        ` ${product.allocationСurrency} ${currency['usd']}`} */}
-                      Allocation: {product.weight}%, {product.dollarsAmount}{' '}
-                      {currency['usd']}
-                    </InvestmentProductSubtitle>
-                  </InvestmentProductDescription>
-                </InvestmentProductWrapper>
-              );
-            })}
-          </InvestmentProductsGroupWrapper>
+          <InvestmentProductWrapper
+            key={product.ticket2}
+            // href="https://www.google.com/"
+            // target="_blank"
+          >
+            <CustomInvestmentProductLabelWrapper
+              color={product.bg2}
+              theme={theme}
+            >
+              <InvestmentProductTicket>
+                {product.ticket2}
+              </InvestmentProductTicket>
+            </CustomInvestmentProductLabelWrapper>
+            <InvestmentProductDescription>
+              <InvestmentProductTitle variant="h6">
+                {product.asset2}
+              </InvestmentProductTitle>
+              <InvestmentProductSubtitle>
+                Allocation: {product.allocation2}%, {product.money2.toFixed(2)}{' '}
+                {currency['usd']}
+              </InvestmentProductSubtitle>
+            </InvestmentProductDescription>
+          </InvestmentProductWrapper>
         );
       })}
     </>

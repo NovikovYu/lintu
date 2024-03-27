@@ -10,6 +10,7 @@ import {
   TableRow,
   TableCell,
   TableBody,
+  useMediaQuery,
 } from '@mui/material';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
@@ -17,11 +18,13 @@ import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import type { ChartOptions } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import { useSelector } from 'react-redux';
 
 import { exposuresChartRequest } from '@/actions/actions';
 import { P } from '@/components/CommonComponents/Common-сomponents-style';
 import CustomTabPanel from '@/feature/CustomTabPanel/CustomTabPanel';
 import getTabAccessibilityProps from '@/feature/CustomTabPanel/getTabAccessibilityProps';
+import { selectAccessKey } from '@/store/slices/sessionSlice';
 
 import {
   ActiveGroupIcon,
@@ -30,7 +33,11 @@ import {
   ExposuresDescriptionText,
   HolingName,
 } from './exposures-block-style';
-import { ACTIVE_GROUPS_COLORS } from '../constants';
+import {
+  ACTIVE_GROUPS_COLORS,
+  BONDS_COLORS,
+  EQUITIES_COLORS,
+} from '../constants';
 import {
   PortfolioRightBlock,
   PortfolioBlockTitle,
@@ -59,73 +66,171 @@ export interface IExposuresData {
   creditQuality: Record<string, number>;
 }
 
-const exposuresMockData = {
-  etfAllocations: [
-    {
-      groupName: 'U.S. Stocks',
-      groupData: [
-        {
-          fundName: 'iShares Core S&P 500 ETF',
-          weight: 32.6,
-          dollarsAmount: 110,
-          numberOfShares: 12,
-        },
-        {
-          fundName: 'iShares Core S&P Mid-Cap ETF',
-          weight: 2.1,
-          dollarsAmount: 90,
-          numberOfShares: 5,
-        },
-      ],
-    },
-    {
-      groupName: 'INTERNATIONAL Stocks',
-      groupData: [
-        {
-          fundName: 'iShares Core MSCI International Developed Markets ETF',
-          weight: 32.6,
-          dollarsAmount: 110,
-          numberOfShares: 12,
-        },
-        {
-          fundName: 'iShares Core MSCI Emerging Markets ETF',
-          weight: 2.1,
-          dollarsAmount: 90,
-          numberOfShares: 5,
-        },
-      ],
-    },
-  ],
-  sectorExposures: {
-    treasury: 0.2,
-    technology: 0.11,
-    financial: 0.69,
-    treasury1: 0.2,
-    technology1: 0.11,
-    financial1: 0.69,
-    treasury2: 0.2,
-    technology2: 0.11,
-    financial2: 0.69,
-    financial3: 0.69,
+// const exposuresMockData = {
+//   etfAllocations: [
+//     {
+//       groupName: 'U.S. Stocks',
+//       groupData: [
+//         {
+//           fundName: 'iShares Core S&P 500 ETF',
+//           weight: 32.6,
+//           dollarsAmount: 110,
+//           numberOfShares: 12,
+//         },
+//         {
+//           fundName: 'iShares Core S&P Mid-Cap ETF',
+//           weight: 2.1,
+//           dollarsAmount: 90,
+//           numberOfShares: 5,
+//         },
+//       ],
+//     },
+//     {
+//       groupName: 'INTERNATIONAL Stocks',
+//       groupData: [
+//         {
+//           fundName: 'iShares Core MSCI International Developed Markets ETF',
+//           weight: 32.6,
+//           dollarsAmount: 110,
+//           numberOfShares: 12,
+//         },
+//         {
+//           fundName: 'iShares Core MSCI Emerging Markets ETF',
+//           weight: 2.1,
+//           dollarsAmount: 90,
+//           numberOfShares: 5,
+//         },
+//       ],
+//     },
+//   ],
+//   sectorExposures: {
+//     treasury: 0.2,
+//     technology: 0.11,
+//     financial: 0.69,
+//     treasury1: 0.2,
+//     technology1: 0.11,
+//     financial1: 0.69,
+//     treasury2: 0.2,
+//     technology2: 0.11,
+//     financial2: 0.69,
+//     financial3: 0.69,
+//   },
+//   topHoldings: [
+//     {
+//       holdingName: 'TRESURY NoTe',
+//       holdingSector: 'Tresury',
+//       weight: 8.99,
+//     },
+//     {
+//       holdingName: 'miCrosoft corp',
+//       holdingSector: 'Information technology',
+//       weight: 32.6,
+//     },
+//   ],
+//   creditQuality: {
+//     'AAA Rated': 0.2,
+//     'AA Rated': 0.11,
+//     'A Rated': 0.69,
+//   },
+// };
+
+export interface Asset {
+  asset: string;
+  ticket: string;
+  allocation: number;
+  money: number;
+  numberofshares: number;
+}
+
+export interface Exposures {
+  asset_class?: string;
+  assets?: Asset[];
+  sectors?: { [sector: string]: number };
+  holdings?: { [holding: string]: number };
+  ratings?: { [rating: string]: number };
+}
+
+const exposuresMockData2: Exposures[] = [
+  {
+    asset_class: 'Equity',
+    assets: [
+      {
+        asset: 'Vanguard S&P 500 ETF',
+        ticket: 'VOO-',
+        allocation: 0.2,
+        money: 200.0,
+        numberofshares: 0.42,
+      },
+      {
+        asset: 'Vanguard Total World Stock Inde',
+        ticket: 'VT',
+        allocation: 0.05,
+        money: 50.0,
+        numberofshares: 0.46,
+      },
+    ],
   },
-  topHoldings: [
-    {
-      holdingName: 'TRESURY NoTe',
-      holdingSector: 'Tresury',
-      weight: 8.99,
-    },
-    {
-      holdingName: 'miCrosoft corp',
-      holdingSector: 'Information technology',
-      weight: 32.6,
-    },
-  ],
-  creditQuality: {
-    'AAA Rated': 0.2,
-    'AA Rated': 0.11,
-    'A Rated': 0.69,
+  {
+    asset_class: 'Bonds',
+    assets: [
+      {
+        asset: 'Vanguard Short-Term Bond ETF',
+        ticket: 'BSV',
+        allocation: 0.55,
+        money: 550.0,
+        numberofshares: 7.2,
+      },
+      {
+        asset: 'iShares Core U.S. Aggregate Bon',
+        ticket: 'AGG',
+        allocation: 0.2,
+        money: 200.0,
+        numberofshares: 2.06,
+      },
+    ],
   },
-};
+  {
+    sectors: {
+      'Basic Materials': 0.64,
+      'Consumer Cyclical': 2.7,
+      'Financial Services': 3.28,
+      'Real Estate': 0.61,
+      'Consumer Defensive': 1.5,
+      Healthcare: 3.08,
+      Utilities: 0.55,
+      'Communication Services': 2.14,
+      Energy: 0.97,
+      Industrials: 2.2,
+      Technology: 7.33,
+    },
+  },
+  {
+    holdings: {
+      'Microsoft Corp': 1.63,
+      'Apple Inc': 1.41,
+      'NVIDIA Corp': 1.01,
+      'Amazon.com Inc': 0.84,
+      'Meta Platforms Inc Class A': 0.56,
+      'Alphabet Inc Class A': 0.44,
+      'Alphabet Inc Class C': 0.39,
+      'Berkshire Hathaway Inc Class B': 0.36,
+      'Eli Lilly and Co': 0.32,
+      'Broadcom Inc': 0.27,
+      'Tesla Inc': 0.03,
+    },
+  },
+  {
+    ratings: {
+      'US Government': 37.13,
+      AAA: 2.75,
+      AA: 15.76,
+      A: 9.77,
+      BBB: 9.47,
+      'Not rated': 0.0,
+      Cash: 0.14,
+    },
+  },
+];
 
 export const sectorExposuresOptions: ChartOptions<'bar'> = {
   indexAxis: 'y' as const,
@@ -197,6 +302,7 @@ export const creditQualityOptions: ChartOptions<'bar'> = {
 
 const ExposuresBlock: FC<IExposures> = ({ portfolioId }) => {
   const theme = useTheme();
+  const accessKey = useSelector(selectAccessKey);
 
   // tabs switching
   const [tabsValue, setTabsValue] = useState(0);
@@ -205,9 +311,8 @@ const ExposuresBlock: FC<IExposures> = ({ portfolioId }) => {
   };
 
   // LOADING
-  const [dataToDispaly, setDataToDispaly] = useState<IExposuresData | null>(
-    null,
-  );
+  // const [dataToDispaly, setDataToDispaly] = useState<IExposuresData | null>(
+  const [dataToDispaly, setDataToDispaly] = useState<Exposures[] | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -218,24 +323,56 @@ const ExposuresBlock: FC<IExposures> = ({ portfolioId }) => {
 
       console.log('requestBody', requestBody);
 
-      const response: IExposuresData | undefined = await exposuresChartRequest(
+      // const response: IExposuresData | undefined = await exposuresChartRequest(
+      const response: Exposures[] | undefined = await exposuresChartRequest(
+        accessKey,
         requestBody,
         setIsLoading,
       );
 
-      console.log('response', response);
+      // console.log('response', response);
 
-      if (response?.etfAllocations) {
+      // if (response?.etfAllocations) {
+      if (response) {
         setDataToDispaly(response);
       } else {
         // @ts-ignore
-        setDataToDispaly(exposuresMockData);
+        setDataToDispaly(exposuresMockData2);
       }
     };
 
-    fetchData();
-  }, []);
+    if (accessKey) {
+      fetchData();
+    }
+  }, [accessKey, portfolioId]);
 
+  const matchesDesctop = useMediaQuery(
+    `(min-width: ${theme.breakpoints.values.containersMd}px)`,
+  );
+
+  // @ts-ignore
+  let assetGroups2;
+  if (dataToDispaly) {
+    assetGroups2 = dataToDispaly.filter((someObg) => someObg.asset_class);
+  }
+
+  // @ts-ignore
+  let sectors2;
+  if (dataToDispaly) {
+    sectors2 = dataToDispaly.filter((someObg) => someObg.sectors);
+  }
+
+  // @ts-ignore
+  let holdings2;
+  if (dataToDispaly) {
+    holdings2 = dataToDispaly.filter((someObg) => someObg.holdings);
+  }
+
+  let ratings2;
+  if (dataToDispaly) {
+    ratings2 = dataToDispaly.filter((someObg) => someObg.ratings);
+  }
+  // console.log('222 ratings2 >>', ratings2);
   return (
     <PortfolioRightBlock>
       <PortfolioBlockTitle variant="h2">Exposures</PortfolioBlockTitle>
@@ -278,10 +415,13 @@ const ExposuresBlock: FC<IExposures> = ({ portfolioId }) => {
           </ExposuresDescriptionText>
 
           {isLoading && 'Loading...'}
-          {dataToDispaly?.etfAllocations && (
+          {assetGroups2 && (
             // <TableWrapper>
             <TableContainer component={Paper}>
-              <Table aria-label="simple table">
+              <Table
+                aria-label="simple table"
+                size={!matchesDesctop ? 'small' : 'medium'}
+              >
                 <TableHead>
                   <TableRow>
                     <TableCell>Fund Name</TableCell>
@@ -291,7 +431,7 @@ const ExposuresBlock: FC<IExposures> = ({ portfolioId }) => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {dataToDispaly.etfAllocations.map((group) => (
+                  {/* {dataToDispaly.etfAllocations.map((group) => (
                     <>
                       <TableRow
                         key={group.groupName}
@@ -304,11 +444,6 @@ const ExposuresBlock: FC<IExposures> = ({ portfolioId }) => {
                           component="th"
                           scope="row"
                         >
-                          {/* <ActiveGroupIcon
-                            backgroundColor={
-                              ACTIVE_GROUPS_COLORS[group.groupName] ?? 'red'
-                            }
-                          /> */}
                           <ActiveGroupIcon
                             // @ts-ignore
                             backgroundColor={
@@ -341,6 +476,60 @@ const ExposuresBlock: FC<IExposures> = ({ portfolioId }) => {
                         </TableRow>
                       ))}
                     </>
+                  ))} */}
+                  {assetGroups2.map((group) => (
+                    <>
+                      <TableRow
+                        key={group.asset_class}
+                        sx={{
+                          '&:last-child td, &:last-child th': { border: 0 },
+                        }}
+                      >
+                        <ActiveGroupTableCell
+                          colSpan={2}
+                          component="th"
+                          scope="row"
+                        >
+                          {/* <ActiveGroupIcon
+                            backgroundColor={
+                              ACTIVE_GROUPS_COLORS[group.groupName] ?? 'red'
+                            }
+                          /> */}
+                          <ActiveGroupIcon
+                            // @ts-ignore
+                            backgroundColor={
+                              group.asset_class === 'Equity'
+                                ? EQUITIES_COLORS[0]
+                                : BONDS_COLORS[0]
+                            }
+                          />
+                          {group.asset_class}
+                        </ActiveGroupTableCell>
+                      </TableRow>
+
+                      {/* @ts-ignore */}
+                      {group.assets.map((assetItem) => (
+                        <TableRow
+                          key={assetItem.asset}
+                          sx={{
+                            '&:last-child td, &:last-child th': { border: 0 },
+                          }}
+                        >
+                          <TableCell component="th" scope="row">
+                            {assetItem.asset}
+                          </TableCell>
+                          <TableCell align="right">
+                            {assetItem.allocation}
+                          </TableCell>
+                          <TableCell align="right">
+                            {assetItem.money.toFixed(2)}
+                          </TableCell>
+                          <TableCell align="right">
+                            {assetItem.numberofshares}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </>
                   ))}
                 </TableBody>
               </Table>
@@ -349,7 +538,7 @@ const ExposuresBlock: FC<IExposures> = ({ portfolioId }) => {
           )}
         </CustomTabPanel>
         {/* SECTOR EXPOSURES */}
-        <CustomTabPanel value={tabsValue} index={1} tabsGroupName={'exposures'}>
+        {/* <CustomTabPanel value={tabsValue} index={1} tabsGroupName={'exposures'}>
           <ExposuresDescriptionText>
             The total expense ratio for the hypothetical portfolio is the
             weighted average expense ratio. The weighted average expense ratio
@@ -377,9 +566,40 @@ const ExposuresBlock: FC<IExposures> = ({ portfolioId }) => {
               />
             </BarChartsWrapper>
           )}
+        </CustomTabPanel> */}
+        <CustomTabPanel value={tabsValue} index={1} tabsGroupName={'exposures'}>
+          <ExposuresDescriptionText>
+            The total expense ratio for the hypothetical portfolio is the
+            weighted average expense ratio. The weighted average expense ratio
+            is based on the proportional size of each fund’s position in the
+            sample, aggregated with all funds in the sample. the net expense
+            ratio is used for funds with fee waiver.
+          </ExposuresDescriptionText>
+
+          {isLoading && 'Loading...'}
+          {sectors2 && sectors2[0] && (
+            <BarChartsWrapper>
+              <Bar
+                options={sectorExposuresOptions}
+                data={{
+                  // @ts-ignore
+                  labels: Object.keys(sectors2[0].sectors),
+                  datasets: [
+                    {
+                      // @ts-ignore
+                      data: Object.values(sectors2[0].sectors).map(
+                        (value: number) => value,
+                      ),
+                      backgroundColor: '#0C6748',
+                    },
+                  ],
+                }}
+              />
+            </BarChartsWrapper>
+          )}
         </CustomTabPanel>
         {/* TOP 10 HOLDINGS */}
-        <CustomTabPanel value={tabsValue} index={2} tabsGroupName={'exposures'}>
+        {/* <CustomTabPanel value={tabsValue} index={2} tabsGroupName={'exposures'}>
           <ExposuresDescriptionText>
             The total expense ratio for the hypothetical portfolio is the
             weighted average expense ratio. The weighted average expense ratio
@@ -391,7 +611,10 @@ const ExposuresBlock: FC<IExposures> = ({ portfolioId }) => {
           {isLoading && 'Loading...'}
           {dataToDispaly?.topHoldings && (
             <TableContainer component={Paper}>
-              <Table aria-label="simple table">
+              <Table
+                aria-label="simple table"
+                size={!matchesDesctop ? 'small' : 'medium'}
+              >
                 <TableHead>
                   <TableRow>
                     <TableCell>Name</TableCell>
@@ -420,9 +643,54 @@ const ExposuresBlock: FC<IExposures> = ({ portfolioId }) => {
               </Table>
             </TableContainer>
           )}
+        </CustomTabPanel> */}
+        <CustomTabPanel value={tabsValue} index={2} tabsGroupName={'exposures'}>
+          <ExposuresDescriptionText>
+            The total expense ratio for the hypothetical portfolio is the
+            weighted average expense ratio. The weighted average expense ratio
+            is based on the proportional size of each fund’s position in the
+            sample, aggregated with all funds in the sample. the net expense
+            ratio is used for funds with fee waiver.
+          </ExposuresDescriptionText>
+
+          {isLoading && 'Loading...'}
+          {holdings2 && holdings2[0] && (
+            <TableContainer component={Paper}>
+              <Table
+                aria-label="simple table"
+                size={!matchesDesctop ? 'small' : 'medium'}
+              >
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Name</TableCell>
+                    <TableCell align="right">Weight&nbsp;(%)</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {/* @ts-ignore */}
+                  {Object.keys(holdings2[0].holdings).map((holdingName) => (
+                    <TableRow
+                      key={holdingName}
+                      sx={{
+                        '&:last-child td, &:last-child th': { border: 0 },
+                      }}
+                    >
+                      <HolingName component="th" scope="row">
+                        {holdingName}
+                      </HolingName>
+                      <TableCell align="right">
+                        {/* @ts-ignore */}
+                        {holdings2[0].holdings[holdingName]}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
         </CustomTabPanel>
         {/* CREDIT QUALITY */}
-        <CustomTabPanel value={tabsValue} index={3} tabsGroupName={'exposures'}>
+        {/* <CustomTabPanel value={tabsValue} index={3} tabsGroupName={'exposures'}>
           <ExposuresDescriptionText>
             The total expense ratio for the hypothetical portfolio is the
             weighted average expense ratio. The weighted average expense ratio
@@ -442,6 +710,37 @@ const ExposuresBlock: FC<IExposures> = ({ portfolioId }) => {
                     {
                       data: Object.values(dataToDispaly.creditQuality).map(
                         (value: number) => value * 100,
+                      ),
+                      backgroundColor: '#0C6748',
+                    },
+                  ],
+                }}
+              />
+            </BarChartsWrapper>
+          )}
+        </CustomTabPanel> */}
+        <CustomTabPanel value={tabsValue} index={3} tabsGroupName={'exposures'}>
+          <ExposuresDescriptionText>
+            The total expense ratio for the hypothetical portfolio is the
+            weighted average expense ratio. The weighted average expense ratio
+            is based on the proportional size of each fund’s position in the
+            sample, aggregated with all funds in the sample. the net expense
+            ratio is used for funds with fee waiver.
+          </ExposuresDescriptionText>
+
+          {isLoading && 'Loading...'}
+          {ratings2 && ratings2[0] && (
+            <BarChartsWrapper>
+              <Bar
+                options={creditQualityOptions}
+                data={{
+                  // @ts-ignore
+                  labels: Object.keys(ratings2[0].ratings),
+                  datasets: [
+                    {
+                      // @ts-ignore
+                      data: Object.values(ratings2[0].ratings).map(
+                        (value: number) => value,
                       ),
                       backgroundColor: '#0C6748',
                     },

@@ -5,7 +5,11 @@ import { Container, useTheme } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 
-import { getQuestionList, saveAnswer } from '@/actions/actions';
+import {
+  getQuestionList,
+  getUnsortedQuestionList,
+  saveAnswer,
+} from '@/actions/actions';
 import {
   MainBox,
   P,
@@ -73,6 +77,7 @@ export default function Survey({ params: { id } }: Props) {
   }, [portfolioId, getFirstList]);
 
   const goNext = () => {
+    setTotalCurrentQuestion2(totalCurrentQuestion2 + 1);
     // console.log('goNext');
     // сейчас или currentQuestion или currentPart косячит с обновлением
     // console.log('currentQuestion', currentQuestion);
@@ -111,6 +116,8 @@ export default function Survey({ params: { id } }: Props) {
   };
 
   const goBack = async () => {
+    setTotalCurrentQuestion2(totalCurrentQuestion2 - 1);
+
     const questionList = await getQuestionList(portfolioId);
     setQuestionList(questionList);
     if (currentQuestion > 0) {
@@ -152,36 +159,50 @@ export default function Survey({ params: { id } }: Props) {
     'introduction_part ': 'Introduction',
     investment_horizone: 'Investment horizone',
     risk_tolerance_test: 'Risk tolerance',
-    tf_part1: 'Thinking / Feeling #1',
-    tf_part2: 'Thinking / Feeling #2',
-    sn_part1: 'Sensing / Intuition # 1',
-    sn_part2: 'Sensing / Intuition # 2',
+    // tf_part1: 'Thinking / Feeling #1',
+    // tf_part2: 'Thinking / Feeling #2',
+    // sn_part1: 'Sensing / Intuition # 1',
+    sn_part1: 'Personality test',
+    // sn_part2: 'Sensing / Intuition # 2',
   };
 
   const [totalCurrentQuestion, setTotalCurrentQuestion] = useState(0);
-  const countCurrentQuestion1 = () => {
-    let acc = currentQuestion;
-    if (currentPart > 0) {
-      for (let partIndex = 0; partIndex < currentPart; partIndex++) {
-        acc += questionList[partIndex].questions.length;
-      }
-    }
-    setTotalCurrentQuestion(acc + currentQuestion);
-  };
+  const countCurrentQuestion = useCallback(async () => {
+    const questionList = await getUnsortedQuestionList(portfolioId);
+    const answerQuontity = questionList.filter((obj: IQuestion) => {
+      return typeof obj.answer == 'string';
+    }).length;
+    setTotalCurrentQuestion(answerQuontity);
+  }, [portfolioId]);
 
   useEffect(() => {
-    countCurrentQuestion1();
-  }, [currentQuestion, countCurrentQuestion1]);
+    countCurrentQuestion();
+  }, [countCurrentQuestion, currentQuestion]);
 
+  // NEW
+  const [totalCurrentQuestion2, setTotalCurrentQuestion2] = useState(0);
+  const countCurrentQuestion2 = useCallback(async () => {
+    const questionList = await getUnsortedQuestionList(portfolioId);
+    const answerQuontity = questionList.filter((obj: IQuestion) => {
+      return typeof obj.answer == 'string';
+    }).length;
+    setTotalCurrentQuestion(answerQuontity);
+  }, [portfolioId]);
+
+  useEffect(() => {
+    countCurrentQuestion2();
+  }, [countCurrentQuestion]);
+  // End
   const [totalQuestionQuontity, setTotalQuestionQuontity] = useState(0);
-  const countTotalQuestionQuontity = () => {
+  const countTotalQuestionQuontity = useCallback(() => {
     let result = 0;
     questionList.forEach((part) => (result += part.questions.length));
     setTotalQuestionQuontity(result);
-  };
+  }, [questionList]);
+
   useEffect(() => {
     countTotalQuestionQuontity();
-  }, [questionList]);
+  }, [countTotalQuestionQuontity, questionList]);
 
   return (
     <MainBox>
@@ -199,10 +220,11 @@ export default function Survey({ params: { id } }: Props) {
                 : 'Loading...'}
             </SurvayPartTitleTitle>
             <P>
-              There are a total of 38 questions. You can always come back and
-              finish the questionnaire. We will save your answers if you log out
-              while completing the survey. Answer as honestly and thoughtfully
-              as possible to get the most suitable portfolio.
+              The Questionnaire will take you about 15 minutes. The following 38
+              questions will help us get acquainted and provide a tailored
+              solution for you. Please choose the most suitable option based on
+              your feelings. We will save your answers automatically if you want
+              to take a break.
             </P>
           </SurvayPartTitleWrapper>
 
@@ -213,6 +235,8 @@ export default function Survey({ params: { id } }: Props) {
                 ? questionList[currentPart].questions.length
                 : 'Loading...'}
             </SurvayPartQuestionsCounter>
+
+            {totalCurrentQuestion2 === 38 && 'Loading...'}
 
             <Question
               question={

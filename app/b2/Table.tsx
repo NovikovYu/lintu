@@ -39,11 +39,11 @@ interface RechargeMethodsTableProps {
 }
 
 const handleRefill = (id: string) => {
-  console.log('handleRefill', id);
+  // console.log('handleRefill', id);
 };
 
 const handleDelete = (id: string) => {
-  console.log('handleRefill', id);
+  // console.log('handleRefill', id);
 };
 
 export default function RechargeMethodsTable({

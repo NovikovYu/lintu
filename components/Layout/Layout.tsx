@@ -29,7 +29,8 @@ const RootPageLayout: FC<IProps> = ({ children }) => {
 
   useEffect(() => {
     const updateKeysFromLocalStorage = () => {
-      const storedSession = localStorage.getItem('session');
+      // const storedSession = localStorage.getItem('session');
+      const storedSession = sessionStorage.getItem('session');
 
       if (storedSession) {
         try {

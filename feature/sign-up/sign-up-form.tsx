@@ -259,8 +259,9 @@ const SignUpForm = ({ handleCloseSignUpModal, isMobile }: Props) => {
                   }
                 />
                 <PasswordHelperTextRestyled error={false}>
-                  The password must be more than 8 characters and contain at
-                  least one capital letter, a special sign !@#$%^&* and a number
+                  {/* The password must be more than 8 characters and contain at
+                  least one capital letter, a special sign !@#$%^&* and a number */}
+                  The password must be more than 8 characters.
                 </PasswordHelperTextRestyled>
                 <PasswordHelperTextRestyled>
                   {fieldState.error?.message}
@@ -328,7 +329,7 @@ const SignUpForm = ({ handleCloseSignUpModal, isMobile }: Props) => {
               <FormControl error={!!fieldState.error?.message}>
                 <LabelTextRestyled
                   id="reg-form-accepted"
-                  label="I apply terms&conditions"
+                  label="I apply terms & conditions"
                   control={
                     <Checkbox
                       checked={fieldValue}

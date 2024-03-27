@@ -27,7 +27,7 @@ export default function CongratulationsOnRegistering() {
 
   const handleOpenSignin = () => {
     // dispatch(setSigninPopupState(true));
-    console.log('создаем тестовый аккаунт и переводим на а2', amount);
+    // console.log('создаем тестовый аккаунт и переводим на а2', amount);
   };
 
   const handleSetAmount = (value: number | number[]) => {

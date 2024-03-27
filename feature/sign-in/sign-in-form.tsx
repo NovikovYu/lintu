@@ -102,7 +102,7 @@ const SignInForm = ({
           //   console.error('Auth error:', authRes);
           // }
         } catch (e) {
-          console.error('Sign in error:', e);
+          console.error('Log In error:', e);
         }
 
         handleCloseSignInModal();
@@ -126,7 +126,7 @@ const SignInForm = ({
   return (
     <SignInFormRestyled>
       <SignInBoxRestyled>
-        <HeadingFormRestyled>Sign in</HeadingFormRestyled>
+        <HeadingFormRestyled>Log In</HeadingFormRestyled>
         <IconButton aria-label="Close form" onClick={handleCloseSignInModal}>
           <CloseIconButtonRestyled />
         </IconButton>
@@ -204,8 +204,9 @@ const SignInForm = ({
                   {fieldState.error?.message}
                 </PasswordHelperTextRestyled>
                 <PasswordHelperTextRestyled error={false}>
-                  The password must be more than 8 characters and contain at
-                  least one capital letter, a special sign !@#$%^&* and a number
+                  {/* The password must be more than 8 characters and contain at
+                  least one capital letter, a special sign !@#$%^&* and a number */}
+                  The password must be more than 8 characters.
                 </PasswordHelperTextRestyled>
               </SignInInputPasswordRestyled>
             );
@@ -228,7 +229,7 @@ const SignInForm = ({
           color="primary"
           endIcon={<SendIconButtonRestyled />}
         >
-          <span>sign in</span>
+          <span>Log In</span>
         </SignInLoadingButtonRestyled>
         <SignUpButtonRestyled
           type="button"

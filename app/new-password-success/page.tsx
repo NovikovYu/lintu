@@ -34,7 +34,7 @@ export default function NewPasswordSuccess() {
             </ChangePasswordTitle>
 
             <ChangePasswordSubtitle>
-              Password changed successfully. Sign In.
+              Password changed successfully. Log In.
             </ChangePasswordSubtitle>
 
             <ButtonRestyled
@@ -47,7 +47,7 @@ export default function NewPasswordSuccess() {
                 dispatch(setSigninPopupState(true));
               }}
             >
-              sign in
+              Log In
             </ButtonRestyled>
           </ChangePasswordFormBox>
         </ChangePasswordBox>

@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, FormControlLabel } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 import { P } from '../CommonComponents/Common-сomponents-style';
@@ -52,17 +52,22 @@ export const SurvayPartQuestionsCounter = styled(P)(({ theme }) => ({
 export const SurvayQuestion = styled(P)(({ theme }) => ({
   marginBottom: theme.spacing(2),
   color: theme.palette.text.primary,
+  fontSize: '18px',
 
   [theme.breakpoints.up('lg')]: {
-    fontSize: '18px',
+    marginBottom: theme.spacing(2),
+    fontSize: '20px',
   },
 }));
-export const SurvayAnswer = styled(P)(({ theme }) => ({
+
+export const SurvayRadioAnswer = styled(FormControlLabel)(({ theme }) => ({
   marginBottom: theme.spacing(2),
-  color: theme.palette.text.primary,
+  color: theme.palette.text.secondary,
+  fontSize: '16px',
 
   [theme.breakpoints.up('lg')]: {
-    fontSize: theme.typography.body1.fontSize,
+    marginBottom: 0,
+    fontSize: '18px',
   },
 }));
 

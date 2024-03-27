@@ -6,9 +6,13 @@ import { UseFormSetError } from 'react-hook-form';
 import { NewPasswordFormTypes } from '@/app/change_password/[id]/page';
 import { IPortfolioCard, PortfolioModel } from '@/app/portfolios/page';
 import { ISortedQuestionSection } from '@/app/survey/[id]/page';
-import { IExposuresData } from '@/components/Portfolio/ExposuresBlock/exposures-block';
+import {
+  Exposures,
+  IExposuresData,
+} from '@/components/Portfolio/ExposuresBlock/exposures-block';
 import { IPortfolioOverallInfo } from '@/components/Portfolio/LevelOfRickBlock/level-of-rick-block';
 import { IFinancialResultData } from '@/components/Portfolio/ResultsBlock/financial-result-component';
+import { IQuestion } from '@/components/Survey/Question';
 import { sortQuestionsBySections } from '@/components/Survey/utilities';
 import { ForgotPasswordFormTypes } from '@/feature/sign-in/forgot-password';
 import { SignInFormTypes } from '@/feature/sign-in/sign-in-form';
@@ -52,6 +56,26 @@ export const getQuestionList = async (
     if (response.data) {
       const sortedQuestionList = sortQuestionsBySections(response.data);
       return sortedQuestionList;
+    }
+
+    return [];
+  } catch (error) {
+    console.error('Request error:', error);
+    throw error;
+  }
+};
+
+export const getUnsortedQuestionList = async (
+  id: string,
+): Promise<IQuestion[]> => {
+  try {
+    const response = await axios.get(
+      process.env.BASE_DEV_URL + `portfolio_questionnaire/?portfolio_id=${id}`,
+    );
+
+    if (response.data) {
+      // const sortedQuestionList = sortQuestionsBySections(response.data);
+      return response.data;
     }
 
     return [];
@@ -265,17 +289,53 @@ export const saveNewPassword = async (
 };
 
 export const portfolioPerformanceChartRequest = async (
-  chartData: any,
+  accessKey: string | null,
+  chartData: {
+    portfolio: string;
+    dataType: string;
+    period: string;
+    benchmark: string;
+  },
   setIsLoading: (isLoading: boolean) => void,
 ): Promise<IFinancialResultData | undefined> => {
   setIsLoading(true);
+  // console.log(
+  //   '123 portfolioPerformanceChartRequest chartData.benchmark >>',
+  //   chartData.benchmark,
+  // );
+  // console.log(
+  //   '123 portfolioPerformanceChartRequest chartData.benchmark ?? S&P 500 Index >>',
+  //   chartData.benchmark.length > 2 ? chartData.benchmark : 'S&P 500 Index',
+  // );
+
+  // сваггер
+  // benchmark=S%26P%20500%20Index
+  // МОЙ
+  // benchmark=S&P%20500%20Index
+
+  const benchmarkMapper: Record<string, string> = {
+    'S&P 500': 'S%26P%20500%20Index',
+    'NASDAQ Composite': 'NASDAQ%20Composite%20index',
+    'MSCI WORLD': 'MSCI%20WORLD%20index',
+  };
+
+  const mappedBenchmark =
+    chartData.benchmark.length > 2
+      ? benchmarkMapper[chartData.benchmark]
+      : benchmarkMapper['S&P 500'];
 
   try {
-    const response = await axios.post(
-      process.env.BASE_DEV_URL + 'portfolio/historic/',
+    const response = await axios.get(
+      process.env.BASE_DEV_URL +
+        `portfolio/historic/?portfolio=${chartData.portfolio}&dataType=${chartData.dataType}&period=${chartData.period}&benchmark=${mappedBenchmark}`,
       // 'http://127.0.0.1:8000/api/v1/portfolio/historic/',
-      chartData,
+      {
+        headers: {
+          Authorization: `Bearer ${accessKey}`,
+        },
+      },
     );
+    console.log('123 portfolioPerformanceChartRequest response >>', response);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -288,15 +348,22 @@ interface exposuresChartRequestParams {
   portfolio: string;
 }
 export const exposuresChartRequest = async (
+  accessKey: string | null,
   params: exposuresChartRequestParams,
   setIsLoading: (isLoading: boolean) => void,
-): Promise<IExposuresData | undefined> => {
+  // ): Promise<IExposuresData | undefined> => {
+): Promise<Exposures[] | undefined> => {
   setIsLoading(true);
 
   try {
-    const response = await axios.post(
-      process.env.BASE_DEV_URL + 'exposures/',
-      params,
+    const response = await axios.get(
+      process.env.BASE_DEV_URL +
+        `portfolio/exposures/?portfolio=${params.portfolio}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessKey}`,
+        },
+      },
     );
     return response.data;
   } catch (error) {
@@ -305,17 +372,28 @@ export const exposuresChartRequest = async (
     setIsLoading(false);
   }
 };
+
+interface amountSaveParams {
+  portfolio: string;
+  investment: number;
+}
 
 export const portfolioAmountSaveRequest = async (
-  params: exposuresChartRequestParams,
+  accessKey: string | null,
+  params: amountSaveParams,
   setIsLoading: (isLoading: boolean) => void,
 ): Promise<IPortfolioOverallInfo | undefined> => {
   setIsLoading(true);
 
   try {
     const response = await axios.post(
-      process.env.BASE_DEV_URL + 'save/',
+      process.env.BASE_DEV_URL + 'invest/',
       params,
+      {
+        headers: {
+          Authorization: `Bearer ${accessKey}`,
+        },
+      },
     );
     return response.data;
   } catch (error) {
@@ -325,16 +403,31 @@ export const portfolioAmountSaveRequest = async (
   }
 };
 
+// export const getQuestionnairesList = async (
+//   accessKey: string | null,
+// ): Promise<PortfolioModel | undefined> => {
+//   try {
+//     const response = await axios.get(process.env.BASE_DEV_URL + 'portfolio/', {
+//       headers: {
+//         Authorization: `Bearer ${accessKey}`,
+//       },
+//     });
+
 export const portfolioOverallInfoRequest = async (
+  accessKey: string | null,
   params: exposuresChartRequestParams,
   setIsLoading: (isLoading: boolean) => void,
 ): Promise<IPortfolioOverallInfo | undefined> => {
   setIsLoading(true);
 
   try {
-    const response = await axios.post(
-      process.env.BASE_DEV_URL + 'risk_score/',
-      params,
+    const response = await axios.get(
+      process.env.BASE_DEV_URL + `risk_score/?portfolio=${params.portfolio}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessKey}`,
+        },
+      },
     );
     return response.data;
   } catch (error) {

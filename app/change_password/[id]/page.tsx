@@ -169,9 +169,10 @@ export default function NewPassword({ params: { id } }: Props) {
                         }
                       />
                       <PasswordHelperTextRestyled error={false}>
-                        The password must be more than 8 characters and contain
+                        {/* The password must be more than 8 characters and contain
                         at least one capital letter, a special sign !@#$%^&* and
-                        a number
+                        a number */}
+                        The password must be more than 8 characters.
                       </PasswordHelperTextRestyled>
                       <PasswordHelperTextRestyled>
                         {fieldState.error?.message}

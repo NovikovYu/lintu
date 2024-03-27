@@ -41,11 +41,13 @@ export interface IHistoricalReturnsChart {
 export interface IFinancialResultValueChart {
   periods: string[];
   data: number[];
+  resultsChartsPeriod: string;
 }
 export interface IFinancialResultPerformanceChart {
   periods: string[];
   data: number[];
   benchmarkValues?: number[];
+  resultsChartsPeriod: string;
 }
 
 export interface IExposures {

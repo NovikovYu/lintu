@@ -74,10 +74,6 @@ type Props = {
   };
 };
 
-// export default function Survey({ params: { id } }: Props) {
-//   const router = useRouter();
-//   const portfolioId = id ?? '';
-
 export default function СPortfolio({ params: { id } }: Props) {
   const pageRef = useRef(null);
   const theme = useTheme();
@@ -254,22 +250,11 @@ export default function СPortfolio({ params: { id } }: Props) {
           </PortfolioRefillBlock>
         )}
 
-        <FinancialResultComponent
-          // totalHistoricalReturns={
-          //   portfolioData.historicalReturns.totalHistoricalReturns
-          // }
-          // years={portfolioData.historicalReturns.years}
-          // percentageReturn={portfolioData.historicalReturns.percentageReturn}
-          // currencyReturn={portfolioData.historicalReturns.currencyReturn}
-          portfolioId={portfolioId}
-        />
+        <FinancialResultComponent portfolioId={portfolioId} />
 
         <PortfolioContentBlock ref={pageRef}>
           <PortfolioLeftContentColumn>
-            <PortfolioCompositionBlock
-              // productGroups={portfolioData.portfolioComposition.productGroups}
-              portfolioId={portfolioId}
-            />
+            <PortfolioCompositionBlock portfolioId={portfolioId} />
 
             <PortfolioStudyBlockWrapper>
               <PortfolioBlockTitle variant="h2">
@@ -285,69 +270,7 @@ export default function СPortfolio({ params: { id } }: Props) {
           </PortfolioLeftContentColumn>
 
           <PortfolioRigthContentColumn>
-            {/* <HistoricalReturnsBox
-              totalHistoricalReturns={
-                portfolioData.historicalReturns.totalHistoricalReturns
-              }
-              years={portfolioData.historicalReturns.years}
-              percentageReturn={
-                portfolioData.historicalReturns.percentageReturn
-              }
-              currencyReturn={portfolioData.historicalReturns.currencyReturn}
-            /> */}
-
-            <ExposuresBlock
-              // exposuresSectors={portfolioData.exposures.exposuresSectors}
-              // exposuresTop10Holdings={
-              //   portfolioData.exposures.exposuresTop10Holdings
-              // }
-              // exposuresCreditQuality={
-              //   portfolioData.exposures.exposuresCreditQuality
-              // }
-              portfolioId={portfolioId}
-            />
-
-            {/* <ExposuresBlock
-              exposuresSectors={portfolioData.exposures.exposuresSectors}
-              exposuresTop10Holdings={
-                portfolioData.exposures.exposuresTop10Holdings
-              }
-              exposuresCreditQuality={
-                portfolioData.exposures.exposuresCreditQuality
-              }
-            /> */}
-
-            {/* <PortfolioRightBlock>
-              <PortfolioBlockTitle variant="h2">
-                ESG performance
-              </PortfolioBlockTitle>
-
-              <P>
-                <StyledLink>In this article</StyledLink> In this article we tell
-                you why this indicator is important for your portfolio
-              </P>
-
-              <ESGPerformanceChartWrapper>
-                <ESGPerformanceChart
-                  labels={portfolioData.esgPerformance.labels}
-                  values={portfolioData.esgPerformance.values}
-                />
-              </ESGPerformanceChartWrapper>
-            </PortfolioRightBlock> */}
-
-            {/* <LevelOfRiskBlock portfolioId={portfolioId} /> */}
-
-            {/* <PortfolioEconomicDetailsBlock>
-              <div>
-                <PortfolioBlockTitle variant="h2">
-                  More economic details
-                </PortfolioBlockTitle>
-
-                <P>You can read the economic indicators</P>
-              </div>
-
-              <PrimaryButton>read</PrimaryButton>
-            </PortfolioEconomicDetailsBlock> */}
+            <ExposuresBlock portfolioId={portfolioId} />
           </PortfolioRigthContentColumn>
         </PortfolioContentBlock>
       </Container>

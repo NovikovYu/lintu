@@ -62,7 +62,7 @@ export default function Survey({ params: { id } }: Props) {
   // }, [router]);
 
   const handleSubmit = (value: string) => {
-    console.log('handleSubmit value >>> ', value);
+    // console.log('handleSubmit value >>> ', value);
   };
 
   const RechargeMethodsData = [
